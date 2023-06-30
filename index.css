@@ -1,0 +1,140 @@
+
+
+
+#contents{
+    width: 85vw;
+    margin: 70px 7.5vw 0;
+}
+
+#content_1 h1{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 100%;
+    letter-spacing: 0.02em;
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.caution{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 110%;
+    color: #383838;
+    position: relative;
+    margin:30px 0 30px 37px ;
+}
+
+#caution_1::before{
+    position: absolute;
+    top: -6px;
+    left: -37px;
+    content:'';
+    display: inline-block;
+    width: 28px;
+    height:28px;
+    background-image:url(img/timer_FILL.svg);
+    background-size: contain;
+	vertical-align: middle;
+}
+
+#caution_2::before{
+    position: absolute;
+    top: -6px;
+    left: -37px;
+    content:'';
+    display: inline-block;
+    width: 28px;
+    height:28px;
+    background-image:url(img/looks_two.svg);
+    background-size: contain;
+	vertical-align: middle;
+}
+
+#caution_3::before{
+    position: absolute;
+    top: 0px;
+    left: -37px;
+    content:'';
+    display: inline-block;
+    width: 28px;
+    height:28px;
+    background-image:url(img/today_FILL.svg);
+    background-size: contain;
+	vertical-align: middle;
+}
+
+#caution_4::before{
+    position: absolute;
+    top: -6px;
+    left: -37px;
+    content:'';
+    display: inline-block;
+    width: 28px;
+    height:28px;
+    background-image:url(img/event_FILL.svg);
+    background-size: contain;
+	vertical-align: middle;
+}
+
+#content_2 h1{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 100%;
+    letter-spacing: 0.02em;
+    color: #000000;
+    margin:45px 0 35px;
+}
+
+#content_2 table{
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0.045em;
+    
+}
+
+#content_2 th,td{
+    width: 11.5vw;
+    padding: 0;
+}
+
+#content_2 th{
+    height: 20px;
+    color: #888888;
+}
+
+#content_2 td{
+    height: 11.5vw;
+    color: #0F0F0F;
+}
+
+.calendar_today {
+    border-radius: 7vw;
+    background-color: #222222;
+    color: #ffffff !important;
+}
+
+.calendar_lastMonth {
+    color: #A3A3A3 !important;
+}
+
+.calendar_unavailable { 
+    color: #A3A3A3 !important;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px ;
+}
+
+#content_2 a{
+    display: block;
+}
+
+

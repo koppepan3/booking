@@ -1,0 +1,81 @@
+#form{
+    margin-top: 70px;
+    width: 80vw;
+    margin-left: 10vw;
+}
+
+#form h1{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    color: #000000;
+    margin-left: 0px;
+    text-align: center;
+}
+
+#form form{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #505050;
+    letter-spacing: 0.050em;
+}
+
+#select_holder{
+    margin-top: 25px;
+}
+
+.holder{
+    margin: 15px 0;
+}
+
+select{
+    margin-top: 5px;
+    display: block;
+    padding: 2px;
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #000000;
+    letter-spacing: 0.025em;
+    width: 100%;
+    outline: 1.8px solid #858585;
+    border: none;
+}
+
+#textbox{
+    margin-top: 5PX;
+    display: block;
+    padding: 2px;
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    color: #000000;
+    letter-spacing: 0.025em;
+    width: 100%;
+    outline: 1.8px solid #858585;
+    border: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#submit{
+    margin-top: 10px;
+    text-align: center;
+    width:100%;
+    outline: none;
+    border: none;
+    padding: 7px;
+    font-size: 13px;
+    background-color: black;
+    color: white;
+}
