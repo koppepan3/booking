@@ -36,16 +36,18 @@ if (isset($_SESSION['index'])) {//ログインしているとき
             </details>
         </header>
         <div id="contents">
-            <div id="content_1">
-                <h1>使用にあたって</h1>
-                <p id="caution_1" class="caution">１枠５０分で同時に３団体まで利用可能です</p>
-                <p id="caution_2" class="caution">同時に予約できるのは最大２枠までです</p>
-                <p id="caution_3" class="caution">使用したい時間帯の開始時間の１時間前までに予約してください</p>
+            <div id="content_1" class="content">
+                <h1>利用にあたって</h1>
+                <p id="caution_1" class="caution">１枠は５０分です</p>
+                <p id="caution_2" class="caution">駐輪場は同時に三団体が利用可能です</p>
+                <p id="caution_3" class="caution">同時に予約できるのは最大２枠までです</p>
+                <p id="description">※使用したい日の前日までに予約をして下さい。<br>※当日、枠に空きがある場合は、生徒会室で予約を受け付けます。</p>
             </div>
-            <div id="content_2">
-                <h1>予約状況</h1>
+            <div id="content_2" class="content" >
+                <h1>新規予約</h1>
+                <h2>予約をしたい日をタップして下さい。</h2>
                 <table>
-                    <tr>
+                    <tr id="week">
                         <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
                     </tr>
                     <tr>
@@ -64,6 +66,15 @@ if (isset($_SESSION['index'])) {//ログインしているとき
                         <td class="calendar_unavailable" id="date28">28</td><td class="calendar_unavailable" id="date29">29</td><td class="calendar_unavailable" id="date30">30</td><td class="calendar_unavailable" id="date31">31</td><td class="calendar_unavailable" id="date32">1</td><td class="calendar_lastMonth">2</td><td class="calendar_lastMonth">3</td>
                     </tr>
                 </table>
+            </div>
+            <div id="content_3" class="content">
+                <h1><?php if (isset($username) ){echo $username;} ?>の予約状況</h1>
+                <div class="reserved_ticket">
+                    <p>12月12日</p>
+                    <p>12月12日</p>
+                    <p>12月12日</p>
+                    
+                </div>
             </div>
         </div>
 

@@ -1,31 +1,41 @@
-
-
-
 #contents{
-    width: 85vw;
-    margin: 70px 7.5vw 0;
+    width: 90vw;
+    margin: 45px 0 0;
+    background-color: #eeeeee;
+    padding: 25px 5vw;
 }
 
-#content_1 h1{
+.content{
+    border: 0px black solid;
+    border-radius: 15px;
+    background-color: white;
+    width: 80vw;
+    padding: 18px 5vw;
+    margin:0 0 35px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.content h1{
     font-family: 'Zen Kaku Gothic New';
     font-style: normal;
-    font-weight: 500;
-    font-size: 21px;
+    font-weight: bold;
+    font-size: 17px;
     line-height: 100%;
-    letter-spacing: 0.02em;
-    color: #000000;
-    margin-bottom: 30px;
+    letter-spacing: 0.08em;
+    color: #2b2b2b;
+    margin:0 0 25px;
 }
 
 .caution{
     font-family: 'Zen Kaku Gothic New';
     font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 13px;
-    line-height: 110%;
-    color: #383838;
+    line-height: 120%;
+    letter-spacing: 0.04em;
+    color: #2a2a2a;
     position: relative;
-    margin:30px 0 30px 37px ;
+    margin:35px 0 0 37px ;
 }
 
 #caution_1::before{
@@ -36,7 +46,7 @@
     display: inline-block;
     width: 28px;
     height:28px;
-    background-image:url(img/timer_FILL.svg);
+    background-image:url(file/icon_1.svg);
     background-size: contain;
 	vertical-align: middle;
 }
@@ -49,25 +59,12 @@
     display: inline-block;
     width: 28px;
     height:28px;
-    background-image:url(img/looks_two.svg);
+    background-image:url(file/icon_2.svg);
     background-size: contain;
 	vertical-align: middle;
 }
 
 #caution_3::before{
-    position: absolute;
-    top: 0px;
-    left: -37px;
-    content:'';
-    display: inline-block;
-    width: 28px;
-    height:28px;
-    background-image:url(img/today_FILL.svg);
-    background-size: contain;
-	vertical-align: middle;
-}
-
-#caution_4::before{
     position: absolute;
     top: -6px;
     left: -37px;
@@ -75,20 +72,32 @@
     display: inline-block;
     width: 28px;
     height:28px;
-    background-image:url(img/event_FILL.svg);
+    background-image:url(file/icon_3.svg);
     background-size: contain;
 	vertical-align: middle;
 }
 
-#content_2 h1{
+#description{
     font-family: 'Zen Kaku Gothic New';
     font-style: normal;
-    font-weight: 500;
-    font-size: 21px;
-    line-height: 100%;
+    font-weight: bold;
+    font-size: 9.5px;
+    line-height: 150%;
     letter-spacing: 0.02em;
-    color: #000000;
-    margin:45px 0 35px;
+    color: #838383;
+    position: relative;
+    margin:25px 0 0;
+}
+
+#content_2 h2{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0.08em;
+    color: #2a2a2a;
+    margin:0 0 20px;
 }
 
 #content_2 table{
@@ -105,6 +114,11 @@
 #content_2 th,td{
     width: 11.5vw;
     padding: 0;
+}
+
+#week th{
+    font-weight: 500!important;
+    color: #11999E!important;
 }
 
 #content_2 th{
@@ -137,4 +151,35 @@
     display: block;
 }
 
+.reserved_ticket{
+    background-color: #E4F9F5;
+    border: 0px black solid;
+    border-radius: 12px;
+    position: relative;
+}
 
+.reserved_ticket::before{
+    position: absolute;
+    content: '';
+    left: 50%;
+    z-index: 10;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: white;
+    transform: translateX(-50%) translateY(-50%);
+    top: 0px;
+}
+
+.reserved_ticket::after{
+    position: absolute;
+    content: '';
+    left: 50%;
+    z-index: 10;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: white;
+    transform: translateX(-50%) translateY(50%);
+    bottom: 0px;
+}
