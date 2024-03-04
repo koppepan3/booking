@@ -1,8 +1,8 @@
 <?php if(isset($_GET['date'])) { $date = $_GET['date']; } if(isset($_GET['time'])) { $time = $_GET['time']; }
     if($date == 32){
-        $MonthDate = "6月1日";
+        $Month = "6";
     }else{
-        $MonthDate = "5月".$date."日";
+        $Month = "5";
     }
 ?>
 <?php include('dbconnect.php'); ?>
@@ -46,21 +46,26 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </header>
         <div id="contents">
             <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
-            
-            <div id="content_1">
+            <div class="content" id="content_1">
                 <h1>予約完了画面</h1>
                 <h2>　以下の内容で予約が完了しました。下記の注意事項を確認の上、利用開始時刻の５分前までに駐輪場にお越しください。</h2>
-                <table id="table_container">
-                    <tr>
-                        <td class="table_left">日時：</td><td class="table_right"><?php echo $MonthDate; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="table_left">時間帯：</td><td class="table_right"><?php echo $time; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="table_left">予約団体：</td><td class="table_right"><?php echo $username; ?></td>
-                    </tr>
-                </table>
+                <div class="ticket">
+                    <div class="ticket_left">
+                        <p class="ticket_top">日付</p>
+                        <h3 class="ticket_top"><?php echo $Month; ?><span class="smallLetter">月</span><?php echo $date; ?><span class="smallLetter">日</span></h3>
+                        <p class="ticket_bottom">予約団体</p>
+                        <h3 class="ticket_bottom"><?php echo $username; ?></h3>
+                    </div>
+                    <div class="ticket_right">
+                        <p class="ticket_top">時間帯</p>
+                        <h3 class="ticket_top"><?php echo $time; ?></h3>
+                    </div>
+                    <form method="post">
+                        <input class="submit_button" type="submit" name="button" value="予約をキャンセルする"/>
+                    </form> 
+                </div>
+            </div>
+            <div class="content" id="content_2">
                 <h1>使用にあたって</h1>
                 <p id="caution_1" class="caution">木材加工、ネジの打ち込み、電動工具の使用が可能</p>
                 <p id="caution_2" class="caution">電動のこぎり、チェーンソー。釘の使用は禁止</p>

@@ -1,8 +1,8 @@
 <?php if(isset($_GET['date'])) { $date = $_GET['date']; } if(isset($_GET['time'])) { $time = $_GET['time']; }
     if($date == 32){
-        $MonthDate = "6月1日";
+        $Month = "6";
     }else{
-        $MonthDate = "5月".$date."日";
+        $Month = "5";
     }
 ?>
 <?php include('dbconnect.php'); ?>
@@ -46,24 +46,25 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </header>
         <div id="contents">
             <a href="details.php?date=<?php echo $date; ?>"><h1 id="backToTop">時間帯選択に戻る</h1></a>
-            
-            <div id="content_1">
-                <h1>予約確認画面</h1>
-                <table id="table_container">
-                    <tr>
-                        <td class="table_left">日時：</td><td class="table_right"><?php echo $MonthDate; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="table_left">時間帯：</td><td class="table_right"><?php echo $time; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="table_left">予約団体：</td><td class="table_right"><?php echo $username; ?></td>
-                    </tr>
-                </table>
+            <img id="statusBar" src="file/statusBar_2.svg">
+            <div class="content" id="content_1">
+                <h1>予約の確認</h1>
+                <div class="ticket">
+                    <div class="ticket_left">
+                        <p class="ticket_top">日付</p>
+                        <h3 class="ticket_top"><?php echo $Month; ?><span class="smallLetter">月</span><?php echo $date; ?><span class="smallLetter">日</span></h3>
+                        <p class="ticket_bottom">予約団体</p>
+                        <h3 class="ticket_bottom"><?php echo $username; ?></h3>
+                    </div>
+                    <div class="ticket_right">
+                        <p class="ticket_top">時間帯</p>
+                        <h3 class="ticket_top"><?php echo $time; ?></h3>
+                    </div>
+                    <form method="post">
+                        <input class="submit_button" type="submit" name="button" value="予約を確定する"/>
+                    </form> 
+                </div>
             </div>
-            <form method="post">
-                <input id="submit_button" type="submit" name="button" value="確定する"/>
-            </form>
         </div>
 
         <!--jQuery読み込み-->
