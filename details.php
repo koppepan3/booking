@@ -47,14 +47,10 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </header>
         <div id="contents">
             <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
-            
-            <div id="content_1">
+            <img id="statusBar" src="file/statusBar_1.svg">
+            <div class="content"id="content_1">
                 <h1><?php echo $MonthDate; ?>の予約状況</h1>
-                <table id="table_container">
-                    <tr>
-                        <th id="table_time">時間帯</th><th id="table_counts">残り枠数</th><th id="table_button"></th>
-                    </tr>
-                </table>
+                <div id="ticket_list"></div>
             </div>
         </div>
 
@@ -71,8 +67,8 @@ if (isset($_SESSION['index'])) {//ログインしているとき
                 $availableNumber = 3 - $data['status'];
                 ?>
             <script>
-                table = document.getElementById("table_container");
-                add_code = "<tr class=\"table_contents\"><td><?php echo $availableTime; ?></td><td><?php echo $availableNumber; ?></td><td><a href=\"form.php?date=<?php echo $date; ?>&time=<?php echo $availableTime; ?>\">予約する</a></td></tr>";
+                table = document.getElementById("ticket_list");
+                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><p>時間帯</p><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_middle\"><p>残り枠数</p><h3><?php echo $availableNumber; ?></h3></div><div class=\"ticket_right\"><button onclick=\"location.href=\'form.php?date=<?php echo $date; ?>&time=<?php echo $availableTime; ?>\'\" class=\"submit_button\">予約する</button></div></div>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php

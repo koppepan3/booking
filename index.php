@@ -70,10 +70,21 @@ if (isset($_SESSION['index'])) {//ログインしているとき
             <div id="content_3" class="content">
                 <h1><?php if (isset($username) ){echo $username;} ?>の予約状況</h1>
                 <div class="reserved_ticket">
-                    <p>12月12日</p>
-                    <p>12月12日</p>
-                    <p>12月12日</p>
-                    <p>12月12日</p>
+                    <div class="ticket_left">
+                        <p class="ticket_top">日付</p>
+                        <h3 class="ticket_top">5<span class="smallLetter">月</span>20<span class="smallLetter">日</span></h3>
+                        <p class="ticket_bottom">予約団体</p>
+                        <h3 class="ticket_bottom">24HR</h3>
+                    </div>
+                    <div class="ticket_right">
+                        <p class="ticket_top">時間帯</p>
+                        <h3 class="ticket_top">17:30～18:20</h3>
+                        <p class="ticket_bottom">予約した日</p>
+                        <h3 class="ticket_bottom">5<span class="smallLetter">月</span>20<span class="smallLetter">日</span></h3>
+                    </div>
+                    <form method="post">
+                        <input class="submit_button" type="submit" name="button" value="予約をキャンセルする"/>
+                    </form> 
                 </div>
             </div>
         </div>
