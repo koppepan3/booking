@@ -20,6 +20,12 @@
     left: -12px;
 }
 
+#statusBar{
+    width: 64vw;
+    text-align: center;
+    margin: 10px 13vw 20px;
+}
+
 #content_1 h2{
     font-family: 'Zen Kaku Gothic New';
     font-style: normal;

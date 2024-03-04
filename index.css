@@ -238,3 +238,14 @@ h3.ticket_bottom{
     line-height: 100%;
     letter-spacing: 0.12em;
 }
+
+#ticket_list h4{
+    font-family: 'Zen Kaku Gothic New';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0.08em;
+    color: #2A2A2A;
+    margin:6px 0 0;
+}

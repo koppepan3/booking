@@ -69,23 +69,8 @@ if (isset($_SESSION['index'])) {//ログインしているとき
             </div>
             <div id="content_3" class="content">
                 <h1><?php if (isset($username) ){echo $username;} ?>の予約状況</h1>
-                <div class="reserved_ticket">
-                    <div class="ticket_left">
-                        <p class="ticket_top">日付</p>
-                        <h3 class="ticket_top">5<span class="smallLetter">月</span>20<span class="smallLetter">日</span></h3>
-                        <p class="ticket_bottom">予約団体</p>
-                        <h3 class="ticket_bottom">24HR</h3>
-                    </div>
-                    <div class="ticket_right">
-                        <p class="ticket_top">時間帯</p>
-                        <h3 class="ticket_top">17:30～18:20</h3>
-                        <p class="ticket_bottom">予約した日</p>
-                        <h3 class="ticket_bottom">5<span class="smallLetter">月</span>20<span class="smallLetter">日</span></h3>
-                    </div>
-                    <form method="post">
-                        <input class="submit_button" type="submit" name="button" value="予約をキャンセルする"/>
-                    </form> 
-                </div>
+                <div id="ticket_list"></div>
+                
             </div>
         </div>
 
@@ -128,5 +113,44 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         <script>
             $(<?php echo "\"#date".date('d')."\""; ?>).addClass("calendar_today");
         </script>
+
+        <?php
+
+        try {
+            $stmt = $dbh->prepare('SELECT * FROM booking WHERE hr like "%'.$username.'%"');
+            $res = $stmt->execute();
+            $count = 0;
+            while($data = $stmt->fetch()) {
+                $count++;
+                $reservedDate = $data['date'];
+                $reservedTime = $data['time'];
+                if($reservedDate == 32){
+                    $Month = "6";
+                }else{
+                    $Month = "5";
+                }
+                ?>
+            <script>
+                table = document.getElementById("ticket_list");
+                add_code = "<div class=\"reserved_ticket\"><div class=\"ticket_left\"><p class=\"ticket_top\">日付</p><h3 class=\"ticket_top\"><?php echo $Month; ?><span class=\"smallLetter\">月</span><?php echo $reservedDate; ?><span class=\"smallLetter\">日</span></h3><p class=\"ticket_bottom\">予約団体</p><h3 class=\"ticket_bottom\"><?php echo $username; ?></h3></div><div class=\"ticket_right\"><p class=\"ticket_top\">時間帯</p><h3 class=\"ticket_top\"><?php echo $reservedTime; ?></h3></div><button class=\"submit_button\" onclick=\"location.href=\'cancelform.php?date=<?php echo $reservedDate; ?>&time=<?php echo $reservedTime; ?>\'\">予約をキャンセルする</button></div>";
+                table.insertAdjacentHTML( 'beforeend', add_code);
+            </script>
+        <?php
+            }
+            
+            if($count == 0){
+        ?>
+            <script>
+                table = document.getElementById("ticket_list");
+                add_code = "<h4>現在、予約された枠はありません。</h4>";
+                table.insertAdjacentHTML( 'beforeend', add_code);
+            </script>
+        <?php
+            }
+        } catch (PDOException $e) {
+            echo "接続失敗 ";
+            exit();
+        };
+        ?>
     </body>
 </html>

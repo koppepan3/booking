@@ -46,6 +46,7 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </header>
         <div id="contents">
             <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
+            <img id="statusBar" src="file/statusBar_3.svg">
             <div class="content" id="content_1">
                 <h1>予約完了画面</h1>
                 <h2>　以下の内容で予約が完了しました。下記の注意事項を確認の上、利用開始時刻の５分前までに駐輪場にお越しください。</h2>
