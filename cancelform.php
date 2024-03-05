@@ -1,4 +1,10 @@
-<?php if(isset($_GET['date'])) { $date = $_GET['date']; } if(isset($_GET['time'])) { $time = $_GET['time']; }?>
+<?php if(isset($_GET['date'])) { $date = $_GET['date']; } if(isset($_GET['time'])) { $time = $_GET['time']; }
+    if($date == 32){
+        $Month = "6";
+    }else{
+        $Month = "5";
+    }
+?>
 <?php include('dbconnect.php'); ?>
 <?php
 session_start();
@@ -40,21 +46,24 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </header>
         <div id="contents">
             <a href="hr_detail.php"><h1 id="backToTop">予約一覧に戻る</h1></a>
-            
-            <div id="content_1">
-                <h1>キャンセル確認画面</h1>
-                <table id="table_container">
-                    <tr>
-                        <td class="table_left">日時：</td><td class="table_right">５月<?php echo $date; ?>日</td>
-                    </tr>
-                    <tr>
-                        <td class="table_left">時間帯：</td><td class="table_right"><?php echo $time; ?></td>
-                    </tr>
-                </table>
+            <div class="content" id="content_1">
+                <h1>キャンセル内容の確認</h1>
+                <div class="ticket">
+                    <div class="ticket_left">
+                        <p class="ticket_top">日付</p>
+                        <h3 class="ticket_top"><?php echo $Month; ?><span class="smallLetter">月</span><?php echo $date; ?><span class="smallLetter">日</span></h3>
+                        <p class="ticket_bottom">予約団体</p>
+                        <h3 class="ticket_bottom"><?php echo $username; ?></h3>
+                    </div>
+                    <div class="ticket_right">
+                        <p class="ticket_top">時間帯</p>
+                        <h3 class="ticket_top"><?php echo $time; ?></h3>
+                    </div>
+                    <form method="post">
+                        <input class="submit_button" type="submit" name="button" value="予約をキャンセルする"/>
+                    </form> 
+                </div>
             </div>
-            <form method="post">
-                <input id="submit_button" type="submit" name="button" value="キャンセル"/>
-            </form>
         </div>
 
         <!--jQuery読み込み-->

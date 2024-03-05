@@ -48,7 +48,7 @@ if (isset($_SESSION['index'])) {//ログインしているとき
             <a href="details.php?date=<?php echo $date; ?>"><h1 id="backToTop">時間帯選択に戻る</h1></a>
             <img id="statusBar" src="file/statusBar_2.svg">
             <div class="content" id="content_1">
-                <h1>予約の確認</h1>
+                <h1>予約内容の確認</h1>
                 <div class="ticket">
                     <div class="ticket_left">
                         <p class="ticket_top">日付</p>
