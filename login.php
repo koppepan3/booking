@@ -1,22 +1,22 @@
 <?php include('dbconnect.php'); ?>
 <?php
 session_start();
-$dantai = $_POST['dantai'];
+$login_user = $_POST['user'];
 
-$sql = "SELECT * FROM users WHERE dantai = :dantai";
+//PDO
+$sql = "SELECT * FROM users WHERE user_id = :temp";//tempはSQLインジェクション対策　bindValueで実際の値を代入している
 $stmt = $dbh->prepare($sql);
-$stmt->bindValue(':dantai', $dantai);
+$stmt->bindValue(':temp', $login_user);
 $stmt->execute();
-$member = $stmt->fetch();
-$dbpass = password_hash($member['pass'], \PASSWORD_DEFAULT);
-//指定したハッシュがパスワードにマッチしているかチェック
-if (password_verify($_POST['pass'], $dbpass)) {
+$db_user = $stmt->fetch();
+$dbpass = password_hash($db_user['password'], \PASSWORD_DEFAULT);//指定したハッシュがパスワードにマッチしているかチェック
+if (password_verify($_POST['pass'], $dbpass)) {//ログイン成功処理
     //DBのユーザー情報をセッションに保存
-    $_SESSION['index'] = $member['index'];
-    $_SESSION['dantai'] = $member['dantai'];
+    $_SESSION['user_id'] = $db_user['user_id'];
+    $_SESSION['user'] = $db_user['user'];
     header('Location: index.php');
     $msg = 'ログイン成功';
-} else {
+} else {//ログイン失敗処理
     $msg = '団体名またはパスワードが間違っています。';
 }
 ?>

@@ -1,7 +1,6 @@
 <?php
 session_start();
-//$username = $_SESSION['name'];
-if (isset($_SESSION['index'])) {//ログインしているとき
+if (isset($_SESSION['user_id'])) {//ログインしているとき
     header("Location:index.php");
 } else {//ログインしていない時
 }
@@ -34,8 +33,8 @@ if (isset($_SESSION['index'])) {//ログインしているとき
                     <div id="select_holder" class="holder">
                         <label>
                             HR・部活
-                            <select name="dantai" required>
-                                <option value="11hr">11HR</option>
+                            <select name="user" required>
+                                <option value="1">11HR</option>
                                 <option value="12hr">12HR</option>
                                 <option value="13hr">13HR</option>
                                 <option value="14hr">14HR</option>

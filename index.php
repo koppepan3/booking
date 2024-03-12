@@ -1,24 +1,26 @@
 <?php
+//ログイン確認処理
 session_start();
-//$username = $_SESSION['name'];
-if (isset($_SESSION['index'])) {//ログインしているとき
-    $username = $_SESSION['dantai'];
-    $link = '<a href="logout.php">ログアウト</a>';
-    $form_style = "none";
-    $body_style = "block";
+if (isset($_SESSION['user_id'])) {//ログインしている時
+    $username = $_SESSION['user'];
+    $user_id = $_SESSION['user_id'];
 } else {//ログインしていない時
     header("Location:loginform.php");
 }
+
+include('dbconnect.php');//DB接続情報読み込み
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- 共通設定 -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>駐輪場予約サイト</title>
         <meta name=”description” content="" />
-        <link rel="stylesheet" href="index.css">
         <link rel="stylesheet" href="style.css">
+        <!-- 検索結果インデックス禁止 -->
+        <meta name=”robots” content=”noindex”>
         <!-- Favicon設定-->
         <link rel="apple-touch-icon" href="file/favicon/apple-touch-icon.png">
         <link type="image/x-icon" rel="icon" href="file/favicon/favicon.ico">
@@ -26,6 +28,10 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+
+        <!-- 個別設定 -->
+        <title>駐輪場予約サイト</title>
+        <link rel="stylesheet" href="index.css">
     <body>
         <header>
                 <a href="index.php"><h1>駐輪場予約サイト</h1></a>
@@ -76,24 +82,20 @@ if (isset($_SESSION['index'])) {//ログインしているとき
 
         <!--jQuery読み込み-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <?php include('dbconnect.php'); ?>
         <?php
         try {
-            $stmt1 = $dbh->prepare('SELECT * FROM booking WHERE hr like "%'.$username.'%"');
+            $stmt1 = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id."  AND (status = 'reserved' OR status = 'before')");
             $res1 = $stmt1->execute();
             $count = 0;
             while($data1 = $stmt1->fetch()){
-                if($data1['date'] >= date('d')){
-                    $count++;
-                }
+                $count++;
             }
             if($count < 2){
-            $stmt = $dbh->prepare('SELECT * FROM booking WHERE status != 3');
+            $stmt = $dbh->prepare('SELECT * FROM booking WHERE occupied_number != 3');
             $res = $stmt->execute();
             while($data = $stmt->fetch()) {
-                $availableDate = $data['date'];
+                $availableDate = date('d',strtotime($data['starting_time']));
                 if($availableDate >= date('d')){
-                
                 ?>
         <script>
             $(<?php echo "\"#date".$availableDate."\""; ?>).removeClass("calendar_unavailable");
@@ -107,7 +109,7 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         }
         } catch (PDOException $e) {
             echo "接続失敗 ";
-            exit();
+            header("Location: error.php?error_code=701");
         };
         ?>
         <script>
@@ -115,24 +117,20 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         </script>
 
         <?php
-
         try {
-            $stmt = $dbh->prepare('SELECT * FROM booking WHERE hr like "%'.$username.'%"');
+            $stmt = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id." AND (status = 'reserved' OR status = 'before')");
             $res = $stmt->execute();
             $count = 0;
             while($data = $stmt->fetch()) {
                 $count++;
-                $reservedDate = $data['date'];
-                $reservedTime = $data['time'];
-                if($reservedDate == 32){
-                    $Month = "6";
-                }else{
-                    $Month = "5";
-                }
+                $ticket_month = date('n',strtotime($data['starting_time']));
+                $ticket_date = date('d',strtotime($data['starting_time']));
+                $ticket_starting_time = date('G:i',strtotime($data['starting_time']));
+                $ticket_id = $data['ticket_index'];
                 ?>
             <script>
                 table = document.getElementById("ticket_list");
-                add_code = "<div class=\"reserved_ticket\"><div class=\"ticket_left\"><p class=\"ticket_top\">日付</p><h3 class=\"ticket_top\"><?php echo $Month; ?><span class=\"smallLetter\">月</span><?php echo $reservedDate; ?><span class=\"smallLetter\">日</span></h3><p class=\"ticket_bottom\">予約団体</p><h3 class=\"ticket_bottom\"><?php echo $username; ?></h3></div><div class=\"ticket_right\"><p class=\"ticket_top\">時間帯</p><h3 class=\"ticket_top\"><?php echo $reservedTime; ?></h3></div><button class=\"submit_button\" onclick=\"location.href=\'cancelform.php?date=<?php echo $reservedDate; ?>&time=<?php echo $reservedTime; ?>\'\">予約をキャンセルする</button></div>";
+                add_code = "<div class=\"reserved_ticket\"><div class=\"ticket_left\"><p class=\"ticket_top\">日付</p><h3 class=\"ticket_top\"><?php echo $ticket_month; ?><span class=\"smallLetter\">月</span><?php echo $ticket_date; ?><span class=\"smallLetter\">日</span></h3><p class=\"ticket_bottom\">予約団体</p><h3 class=\"ticket_bottom\"><?php echo $username; ?></h3></div><div class=\"ticket_right\"><p class=\"ticket_top\">時間帯</p><h3 class=\"ticket_top\"><?php echo $ticket_starting_time; ?>～</h3></div><button class=\"submit_button\" onclick=\"location.href=\'cancelform.php?ticket_id=<?php echo $ticket_id; ?>\'\">予約をキャンセルする</button></div>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php
@@ -144,12 +142,12 @@ if (isset($_SESSION['index'])) {//ログインしているとき
                 table = document.getElementById("ticket_list");
                 add_code = "<h4>現在、予約された枠はありません。</h4>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
-            </script>
+            </script>   
         <?php
             }
         } catch (PDOException $e) {
             echo "接続失敗 ";
-            exit();
+            header("Location:error.php?error_code=701");
         };
         ?>
     </body>

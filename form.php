@@ -1,21 +1,29 @@
-<?php if(isset($_GET['date'])) { $date = $_GET['date']; } if(isset($_GET['time'])) { $time = $_GET['time']; }
-    if($date == 32){
-        $Month = "6";
-    }else{
-        $Month = "5";
-    }
-?>
-<?php include('dbconnect.php'); ?>
 <?php
+//ログイン確認処理
 session_start();
-//$username = $_SESSION['name'];
-if (isset($_SESSION['index'])) {//ログインしているとき
-    $username = $_SESSION['dantai'];
-    $link = '<a href="logout.php">ログアウト</a>';
-    $form_style = "none";
-    $body_style = "block";
+if (isset($_SESSION['user_id'])) {//ログインしている時
+    $username = $_SESSION['user'];
+    $user_id = $_SESSION['user_id'];
 } else {//ログインしていない時
     header("Location:loginform.php");
+}
+
+include('dbconnect.php');//DB接続情報読み込み
+
+if(isset($_GET['space_id'])) { $space_id = $_GET['space_id']; } 
+
+try{
+    $stmt = $dbh->prepare("SELECT * FROM booking WHERE space_id = ".$space_id);
+    $res = $stmt->execute();
+    $result = $stmt->fetch();
+    $month = date('n',strtotime($result['starting_time']));
+    $date = date('j',strtotime($result['starting_time']));
+    $starting_time = $result['starting_time'];
+    $ending_time = $result['ending_time'];
+    $time = date('H:i',strtotime($starting_time))."～".date('H:i',strtotime($ending_time));
+}catch (PDOException $e) {
+    echo "接続失敗";
+    header("Location: error.php?error_code=701");
 }
 ?>
 <!DOCTYPE html>
@@ -52,7 +60,7 @@ if (isset($_SESSION['index'])) {//ログインしているとき
                 <div class="ticket">
                     <div class="ticket_left">
                         <p class="ticket_top">日付</p>
-                        <h3 class="ticket_top"><?php echo $Month; ?><span class="smallLetter">月</span><?php echo $date; ?><span class="smallLetter">日</span></h3>
+                        <h3 class="ticket_top"><?php echo $month; ?><span class="smallLetter">月</span><?php echo $date; ?><span class="smallLetter">日</span></h3>
                         <p class="ticket_bottom">予約団体</p>
                         <h3 class="ticket_bottom"><?php echo $username; ?></h3>
                     </div>
@@ -73,28 +81,24 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         <?php
         if(isset($_POST['button'])){
             try {
-                $stmt1 = $dbh->prepare('SELECT * FROM booking WHERE hr like "%'.$username.'%"');
-                $res1 = $stmt1->execute();
-                $count = 0;
-                while($data1 = $stmt1->fetch()){
-                    if($data1['date'] >= date('d')){
-                        $count++;
-                    }
-                }
-                if($count >= 2){header("Location: error.php"); exit();}
-
-                $stmt = $dbh->prepare('SELECT * FROM booking WHERE date = '.$date.' AND time = \''.$time.'\'');
+                $stmt = $dbh->prepare("SELECT * FROM booking WHERE space_id = ".$space_id);
                 $res = $stmt->execute();
-                while($data = $stmt->fetch()) {
-                $exisiting_hr = $data['hr'];
+                $result = $stmt->fetch();
+                $occupied_number = $result['occupied_number'];
+                if($occupied_number < 3){//枠が開いている場合の処理
+                    $stmt1 = $dbh->prepare("UPDATE booking SET occupied_number = occupied_number + 1 WHERE space_id = ".$space_id);
+                    $res1 = $stmt1->execute();
+                    $stmt2 = $dbh->prepare("INSERT INTO tickets (user_id, attatched_space, status, starting_time, ending_time) VALUES (".$user_id.", ".$space_id.", 'reserved', '".$starting_time."', '".$ending_time."');SELECT LAST_INSERT_ID();");
+                    $res2 = $stmt2->execute();
+                    $ticket_id = $dbh -> lastInsertId();
+                }else{
+                    header("Location: error.php?error_code=703");
                 }
-                $stmt1 = $dbh->prepare('UPDATE booking SET hr = \''.$username.','.$exisiting_hr.'\', status = status +1 WHERE date = '.$date.' AND time = \''.$time.'\'');
-                $res1 = $stmt1->execute();
             } catch (PDOException $e) {
                 echo "接続失敗 ";
-                exit();
+                header("Location: error.php?error_code=701");
             };
-            header("Location:confirm.php?date=".$date."&time=".$time);
+            header("Location:confirm.php?ticket_id=".$ticket_id);
         }
 
         

@@ -1,14 +1,36 @@
-<?php include('dbconnect.php'); ?>
 <?php
+//ログイン確認処理
 session_start();
-//$username = $_SESSION['name'];
-if (isset($_SESSION['index'])) {//ログインしているとき
-    $username = $_SESSION['dantai'];
-    $link = '<a href="logout.php">ログアウト</a>';
-    $form_style = "none";
-    $body_style = "block";
+if (isset($_SESSION['user_id'])) {//ログインしている時
+    $username = $_SESSION['user'];
+    $user_id = $_SESSION['user_id'];
 } else {//ログインしていない時
     header("Location:loginform.php");
+}
+
+if(isset($_GET['error_code'])) { $error_code = $_GET['error_code']; } 
+
+//エラーコードからエラー内容を取得
+switch($error_code){
+    case 700:
+        $error = "予約の一時間前のためキャンセルはできません";
+        break;
+    case 701:
+        $error = "データベース接続失敗";
+        break;
+    case 703:
+        $error = "該当の枠は既に埋まっています";
+        break;
+    case 704:
+        $error = "この予約は既にキャンセル済みです";
+        break;
+    case 707:
+        $error = "同時に予約可能な枠数の上限に達しました";
+        break;
+    default:
+        $error_code = "0";
+        $error = "該当するエラーはありません";
+        break;
 }
 ?>
 <!DOCTYPE html>
@@ -16,9 +38,9 @@ if (isset($_SESSION['index'])) {//ログインしているとき
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>駐輪場予約サイト/エラーが発声しました</title>
+        <title>駐輪場予約サイト/エラー<?php echo $error_code; ?></title>
         <meta name="description" content="" />
-        <link rel="stylesheet" href="confirm.css">
+        <link rel="stylesheet" href="error.css">
         <link rel="stylesheet" href="style.css">
         <!-- Favicon設定-->
         <link rel="apple-touch-icon" href="file/favicon/apple-touch-icon.png">
@@ -38,16 +60,12 @@ if (isset($_SESSION['index'])) {//ログインしているとき
             </details>
         </header>
         <div id="contents">
-            <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
-            
-            <div id="content_1">
-                <h1>予約処理中にエラーが発生しました。</h1>
-                <a href="index.php"><p>トップに戻る</P></a>
-            </div>
+        <div id="content_1" class="content">
+            <h1>エラーが発生しました</h1>
+            <p>エラーコード: <?php echo $error_code; ?></p>
+            <p>エラーの内容: <?php echo $error; ?></p>
+            <p>エラーが繰り返し発生する場合は文化祭本部までお問い合わせください。</p>
+            <button class="submit_button" onclick="location.href='index.php'">トップページに戻る</button>
         </div>
-
-        <!--jQuery読み込み-->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script>let table = document.getElementById("table_container");let add_code = "";</script>
     </body>
 </html>

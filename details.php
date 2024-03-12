@@ -1,30 +1,29 @@
-<?php 
-    if(isset($_GET['date'])) { $date = $_GET['date']; } 
-    if($date == 32){
-        $MonthDate = "6月1日";
-    }else{
-        $MonthDate = "5月".$date."日";
-    }
-?>
-<?php include('dbconnect.php'); ?>
 <?php
+//ログイン確認処理
 session_start();
-//$username = $_SESSION['name'];
-if (isset($_SESSION['index'])) {//ログインしているとき
-    $username = $_SESSION['dantai'];
-    $link = '<a href="logout.php">ログアウト</a>';
-    $form_style = "none";
-    $body_style = "block";
+if (isset($_SESSION['user_id'])) {//ログインしている時
+    $username = $_SESSION['user'];
+    $user_id = $_SESSION['user_id'];
 } else {//ログインしていない時
     header("Location:loginform.php");
 }
+
+include('dbconnect.php');//DB接続情報読み込み
+
+if(isset($_GET['date'])) { $date = $_GET['date']; } 
+if($date == 32){
+    $MonthDate = "6月1日";
+}else{
+    $MonthDate = "5月".$date."日";
+}
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>駐輪場予約サイト/予約状況</title>
+        <title>駐輪場予約サイト/<?php echo $date; ?>日の予約状況</title>
         <meta name="description" content="" />
         <link rel="stylesheet" href="details.css">
         <link rel="stylesheet" href="style.css">
@@ -60,22 +59,23 @@ if (isset($_SESSION['index'])) {//ログインしているとき
         <?php
 
         try {
-            $stmt = $dbh->prepare('SELECT * FROM booking WHERE status != 3 AND date='.$date);
+            $stmt = $dbh->prepare("SELECT * FROM booking WHERE occupied_number != 3 AND DATE_FORMAT(starting_time, '%d')=".$date);
             $res = $stmt->execute();
-            while($data = $stmt->fetch()) {
-                $availableTime = $data['time'];
-                $availableNumber = 3 - $data['status'];
+            while($result = $stmt->fetch()) {
+                $availableTime = date('H:i',strtotime($result['starting_time']))."～".$availableTime = date('H:i',strtotime($result['ending_time']));;
+                $availableNumber = 3 - $result['occupied_number'];
+                $space_id = $result['space_id'];
                 ?>
             <script>
                 table = document.getElementById("ticket_list");
-                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><p>時間帯</p><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_middle\"><p>残り枠数</p><h3><?php echo $availableNumber; ?></h3></div><div class=\"ticket_right\"><button onclick=\"location.href=\'form.php?date=<?php echo $date; ?>&time=<?php echo $availableTime; ?>\'\" class=\"submit_button\">予約する</button></div></div>";
+                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><p>時間帯</p><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_middle\"><p>残り枠数</p><h3><?php echo $availableNumber; ?></h3></div><div class=\"ticket_right\"><button onclick=\"location.href=\'form.php?space_id=<?php echo $space_id; ?>\'\" class=\"submit_button\">予約する</button></div></div>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php
             }
         } catch (PDOException $e) {
             echo "接続失敗 ";
-            exit();
+            header("Location: error.php?error_code=701");
         };
         ?>
     </body>
