@@ -53,7 +53,7 @@ try{
             </details>
         </header>
         <div id="contents">
-            <a href="details.php?date=<?php echo $date; ?>"><h1 id="backToTop">時間帯選択に戻る</h1></a>
+            <a href="details.php?date=<?php echo $date; ?>"><h1 id="backToTop"></h1></a>
             <img id="statusBar" src="file/statusBar_2.svg">
             <div class="content" id="content_1">
                 <h1>予約内容の確認</h1>

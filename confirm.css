@@ -43,7 +43,7 @@
     border: 0px black solid;
     border-radius: 12px;
     position: relative;
-    height: 170px;
+    height: 130px;
 }
 
 .ticket::before{

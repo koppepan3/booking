@@ -75,7 +75,7 @@ try{
             </details>
         </header>
         <div id="contents">
-            <a href="hr_detail.php"><h1 id="backToTop">予約一覧に戻る</h1></a>
+            <a href="index.php"><h1 id="backToTop"></h1></a>
             <div class="content" id="content_1">
                 <h1>キャンセル内容の確認</h1>
                 <div class="ticket">
@@ -109,7 +109,7 @@ try{
                 echo "接続失敗 ";
                 header("Location:error.php?error_code=701");
             };
-            header("Location:index.php");
+            header("Location:index.php?message=予約はキャンセルされました<br>(チケットID: ".$ticket_id.")");
         }
 
         

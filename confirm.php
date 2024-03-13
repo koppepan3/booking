@@ -53,7 +53,6 @@ try{
             </details>
         </header>
         <div id="contents">
-            <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
             <img id="statusBar" src="file/statusBar_3.svg">
             <div class="content" id="content_1">
                 <h1>予約完了画面</h1>

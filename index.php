@@ -9,8 +9,12 @@ if (isset($_SESSION['user_id'])) {//ログインしている時
 }
 
 include('dbconnect.php');//DB接続情報読み込み
-?>
 
+//URLパラメータ取得処理
+if(isset($_GET['message'])){
+    $message =  $_GET['message'];
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,20 +80,36 @@ include('dbconnect.php');//DB接続情報読み込み
             <div id="content_3" class="content">
                 <h1><?php if (isset($username) ){echo $username;} ?>の予約状況</h1>
                 <div id="ticket_list"></div>
-                
             </div>
         </div>
+        <div id="modal_overlay">
+            <div id="modal_content">
+                <h1>メッセージ</h1>
+                <h2><?php echo $message; ?></h2>
+                <button onclick="document.getElementById('modal_overlay').style.display = 'none';">メッセージを閉じる</button>
+            </div>
+        </div>
+
+        <?php //モーダル表示処理
+        if(isset($_GET['message'])){
+            $message =  $_GET['message']; ?>
+        <script>document.getElementById("modal_overlay").style.display = "block";</script>
+        <?php } ?>
 
         <!--jQuery読み込み-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <?php
         try {
+            //団体の同時予約数取得
             $stmt1 = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id."  AND (status = 'reserved' OR status = 'before')");
             $res1 = $stmt1->execute();
             $count = 0;
             while($data1 = $stmt1->fetch()){
                 $count++;
             }
+
+            //同時予約数が上限未満の場合
+            //空いている枠のある日にclassとリンク付与
             if($count < 2){
             $stmt = $dbh->prepare('SELECT * FROM booking WHERE occupied_number != 3');
             $res = $stmt->execute();
@@ -112,36 +132,39 @@ include('dbconnect.php');//DB接続情報読み込み
             header("Location: error.php?error_code=701");
         };
         ?>
+
+        <!--今日の日付を取得してクラス付与-->
         <script>
             $(<?php echo "\"#date".date('d')."\""; ?>).addClass("calendar_today");
         </script>
 
         <?php
+        //団体の予約内容取得処理
         try {
             $stmt = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id." AND (status = 'reserved' OR status = 'before')");
             $res = $stmt->execute();
             $count = 0;
-            while($data = $stmt->fetch()) {
+            while($result = $stmt->fetch()) {
                 $count++;
-                $ticket_month = date('n',strtotime($data['starting_time']));
-                $ticket_date = date('d',strtotime($data['starting_time']));
-                $ticket_starting_time = date('G:i',strtotime($data['starting_time']));
-                $ticket_id = $data['ticket_index'];
+                $ticket_month = date('n',strtotime($result['starting_time']));
+                $ticket_date = date('d',strtotime($result['starting_time']));
+                $ticket_starting_time = date('G:i',strtotime($result['starting_time']));
+                $ticket_ending_time = date('G:i',strtotime($result['ending_time']));
+                $ticket_id = $result['ticket_index'];
                 ?>
             <script>
-                table = document.getElementById("ticket_list");
-                add_code = "<div class=\"reserved_ticket\"><div class=\"ticket_left\"><p class=\"ticket_top\">日付</p><h3 class=\"ticket_top\"><?php echo $ticket_month; ?><span class=\"smallLetter\">月</span><?php echo $ticket_date; ?><span class=\"smallLetter\">日</span></h3><p class=\"ticket_bottom\">予約団体</p><h3 class=\"ticket_bottom\"><?php echo $username; ?></h3></div><div class=\"ticket_right\"><p class=\"ticket_top\">時間帯</p><h3 class=\"ticket_top\"><?php echo $ticket_starting_time; ?>～</h3></div><button class=\"submit_button\" onclick=\"location.href=\'cancelform.php?ticket_id=<?php echo $ticket_id; ?>\'\">予約をキャンセルする</button></div>";
-                table.insertAdjacentHTML( 'beforeend', add_code);
+                //チケットのhtml挿入処理
+                add_code = "<div class=\"reserved_ticket\"><div class=\"ticket_left\"><p class=\"ticket_top\">日付</p><h3 class=\"ticket_top\"><?php echo $ticket_month; ?><span class=\"smallLetter\">月</span><?php echo $ticket_date; ?><span class=\"smallLetter\">日</span></h3><p class=\"ticket_bottom\">予約団体</p><h3 class=\"ticket_bottom\"><?php echo $username; ?></h3></div><div class=\"ticket_right\"><p class=\"ticket_top\">時間帯</p><h3 class=\"ticket_top\"><?php echo $ticket_starting_time; ?>～<?php echo $ticket_ending_time; ?></h3></div><button class=\"submit_button\" onclick=\"location.href=\'cancelform.php?ticket_id=<?php echo $ticket_id; ?>\'\">予約をキャンセルする</button></div>";
+                document.getElementById("ticket_list").insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php
             }
-            
+            //予約数が0の場合の処理
             if($count == 0){
         ?>
             <script>
-                table = document.getElementById("ticket_list");
                 add_code = "<h4>現在、予約された枠はありません。</h4>";
-                table.insertAdjacentHTML( 'beforeend', add_code);
+                document.getElementById("ticket_list").insertAdjacentHTML( 'beforeend', add_code);
             </script>   
         <?php
             }

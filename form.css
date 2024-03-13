@@ -8,22 +8,24 @@
     color: #767676;
     margin-left: 2px;
     position: relative;
+    margin-bottom: 15px;
 }
 
 #backToTop::before{
     content: '';
-    background-image: url("img/arrow_back_ios_FILL.svg");
-    width: 16px;
-    height: 16px;
+    background-image: url("file/arrow_back.svg");
+    width: 20px;
+    height: 20px;
     background-size: cover;
     position: absolute;
-    left: -12px;
+    left: -2px;
+    top: -18px;
 }
 
 #statusBar{
     width: 64vw;
     text-align: center;
-    margin: 10px 13vw 20px;
+    margin: 15px 13vw 20px;
 }
 
 .ticket{

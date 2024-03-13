@@ -45,7 +45,7 @@ if($date == 32){
             </details>
         </header>
         <div id="contents">
-            <a href="index.php"><h1 id="backToTop">トップに戻る</h1></a>
+            <a href="index.php"><h1 id="backToTop"></h1></a>
             <img id="statusBar" src="file/statusBar_1.svg">
             <div class="content"id="content_1">
                 <h1><?php echo $MonthDate; ?>の予約状況</h1>
