@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {//ログインしているとき
                         <label>
                             HR・部活
                             <select name="user" required>
-                                <option value="1">11HR</option>
+                                <option value="2">11HR</option>
                                 <option value="12hr">12HR</option>
                                 <option value="13hr">13HR</option>
                                 <option value="14hr">14HR</option>
@@ -64,6 +64,7 @@ if (isset($_SESSION['user_id'])) {//ログインしているとき
                                 <option value="弦楽">弦楽</option>
                                 <option value="国際文化">国際文化</option>
                                 <option value="囲碁将棋">囲碁将棋</option>
+                                <option value="1">備品班</option>
                             </select>
                         </label>
                     </div>

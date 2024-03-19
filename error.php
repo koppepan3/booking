@@ -27,6 +27,9 @@ switch($error_code){
     case 707:
         $error = "同時に予約可能な枠数の上限に達しました";
         break;
+    case 708:
+        $error = "管理画面ログインエラー<br>　備品班としてログインしてください";
+        break;
     default:
         $error_code = "0";
         $error = "該当するエラーはありません";

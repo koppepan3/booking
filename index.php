@@ -41,7 +41,6 @@ if(isset($_GET['message'])){
                 <a href="index.php"><h1>駐輪場予約サイト</h1></a>
             <details>
                 <summary><?php if (isset($username) ){echo $username;} ?></summary>
-                <li><a href="hr_detail.php">予約状況確認</a></li>
                 <li><a href="logout.php">ログアウト</a></li>
             </details>
         </header>
