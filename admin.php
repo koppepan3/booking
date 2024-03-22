@@ -107,13 +107,13 @@ try{
                 </div>
             </div>
             <div id="content_2" class="content" >
-                <h1>新規予約</h1>
-                <h2>予約をしたい日をタップして下さい。</h2>
-                
+                <h1>各団体の予約状況</h1>
             </div>
             <div id="content_3" class="content">
-                <h1><?php if (isset($username) ){echo $username;} ?>の予約状況</h1>
-                <div id="ticket_list"></div>
+                <h1>ペナルティ一覧</h1>
+                <div class="penalty_ticket">
+
+                </div>
             </div>
         </div>
 
@@ -166,6 +166,7 @@ try{
             ?>
 
         <script>
+            //利用状況記録スライダー機能実装
             var space_id_global = <?php echo $default_space_id;?>;
             show_space( space_id_global );
 
@@ -195,5 +196,73 @@ try{
                 }
             }
         </script>
+
+        <!--各団体の予約状況生成-->
+        <?php
+        try{
+            $stmt = $dbh->prepare('SELECT * FROM users');
+            $res = $stmt->execute();
+            while($result = $stmt->fetch()){
+                //usersテーブルからユーザを取得し、それぞれの団体ごとにgroup_ticket生成
+                $user_id = $result['user_id'];
+                $user_name = $result['user'];
+                ?>
+                <script>
+                    table = document.getElementById("content_2");
+                    add_code = "<div class='group_ticket'><h2><?php echo $user_name;?></h2><div id='datetime_container_<?php echo $user_id;?>' class='datetime_container'></div></div>";
+                    table.insertAdjacentHTML( 'beforeend', add_code);
+                </script>
+                <?php
+                //その団体の予約チケットを取得してpタグをdatetime_container内に生成
+                $stmt1 = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id." AND ( status = 'reserved' OR status = 'before')");
+                $res1 = $stmt1->execute();
+                while($result1 = $stmt1->fetch()){
+                    $result_time = date('G:i',strtotime($result1['starting_time']))."~".date('G:i',strtotime($result1['ending_time']));
+                    $result_month = date('n',strtotime($result1['starting_time']));
+                    $result_date = date('d',strtotime($result1['starting_time']));
+                ?>
+                <script>
+                    table = document.getElementById("datetime_container_<?php echo $user_id;?>");
+                    add_code = "<p><?php echo $result_month;?>月<?php echo $result_date;?>日    <?php echo $result_time;?></p>";
+                    table.insertAdjacentHTML( 'beforeend', add_code);
+                </script>
+                <?php
+                }
+            }
+        } catch (PDOException $e) {
+            echo "接続失敗 ";
+            header("Location: error.php?error_code=701");
+        }
+        ?>
+
+        <?php
+        //団体の予約内容取得処理
+        try {
+            $stmt = $dbh->prepare("SELECT * FROM tickets WHERE status = 'unused' ");
+            $res = $stmt->execute();
+            while($result = $stmt->fetch()) {
+                $ticket_month = date('n',strtotime($result['starting_time']));
+                $ticket_date = date('d',strtotime($result['starting_time']));
+                $ticket_starting_time = date('G:i',strtotime($result['starting_time']));
+                $ticket_ending_time = date('G:i',strtotime($result['ending_time']));
+                $ticket_id = $result['ticket_index'];
+                $ticket_user_id = $result['user_id'];
+                $stmt1 = $dbh->prepare("SELECT * FROM users WHERE user_id = ".$ticket_user_id);
+                $res1 = $stmt1->execute();
+                $result1 = $stmt1->fetch();
+                $ticket_user = $result1['user'];
+                ?>
+            <script>
+                //チケットのhtml挿入処理
+                add_code = "<div class='reserved_ticket'><div class='ticket_left'><p class='ticket_top'>日付</p><h3 class='ticket_top'><?php echo $ticket_month; ?><span class='smallLetter'>月</span><?php echo $ticket_date; ?><span class='smallLetter'>日</span></h3><p class='ticket_bottom'>予約団体</p><h3 class='ticket_bottom'><?php echo $ticket_user; ?></h3></div><div class='ticket_right'><p class='ticket_top'>時間帯</p><h3 class='ticket_top'><?php echo $ticket_starting_time; ?>～<?php echo $ticket_ending_time; ?></h3><p class='ticket_bottom'>チケットID</p><h3 class='ticket_bottom'><?php echo $ticket_id; ?></h3></div></div>";
+                document.getElementById("content_3").insertAdjacentHTML( 'beforeend', add_code);
+            </script>
+        <?php
+            }
+        } catch (PDOException $e) {
+            echo "接続失敗 ";
+            header("Location:error.php?error_code=701");
+        };
+        ?>
     </body>
 </html>

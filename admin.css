@@ -126,43 +126,62 @@
     margin: 0 3px;
 }
 
-#content_2 a{
-    display: block;
+
+.group_ticket{
+    width: 100%;
+    height: 70px;
+    background-image: linear-gradient(136deg, rgba(128, 182, 190, 1) 9%, rgba(19, 84, 122, 1) 95%);
+    border: none;
+    border-radius: 15px;
+    margin-top: 15px;
+    padding: 0;
+    position: relative;
+}
+
+.group_ticket h2{
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 17px;
+    line-height: 100%;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    line-height: 18px;
+    margin:0;
+    position: absolute;
+    top: 35px;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.group_ticket p{
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    line-height: 18px;
+    margin: 5px 0;
+}
+
+.datetime_container{
+    position: absolute;
+    top: 35px;
+    right: 18px;
+    transform: translateY(-50%);
 }
 
 .reserved_ticket{
-    background-color: #E4F9F5;
-    border: 0px black solid;
+    background-image: linear-gradient(136deg, rgba(128, 182, 190, 1) 9%, rgba(19, 84, 122, 1) 95%);
+    border: none;
     border-radius: 12px;
     position: relative;
-    height: 170px;
+    height: 140px;
     margin: 12px 0;
-}
-
-.reserved_ticket::before{
-    position: absolute;
-    content: '';
-    left: 50%;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: white;
-    transform: translateX(-50%) translateY(-50%);
-    top: 0px;
-}
-
-.reserved_ticket::after{
-    position: absolute;
-    content: '';
-    left: 50%;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: white;
-    transform: translateX(-50%) translateY(50%);
-    bottom: 0px;
 }
 
 .ticket_left{
@@ -188,7 +207,7 @@ p.ticket_top{
     font-size: 8px;
     line-height: 100%;
     letter-spacing: 0.08em;
-    color: #8A8A8A;
+    color: #E1E1E1;
     margin:0;
 }
 
@@ -199,7 +218,7 @@ h3.ticket_top{
     font-size: 17px;
     line-height: 100%;
     letter-spacing: 0.18em;
-    color: #2A2A2A;
+    color: #ffffff;
     margin:6px 6px 0;
 }
 
@@ -210,7 +229,7 @@ p.ticket_bottom{
     font-size: 8px;
     line-height: 100%;
     letter-spacing: 0.08em;
-    color: #8A8A8A;
+    color: #E1E1E1;
     margin:22px 0 0;
 }
 
@@ -221,100 +240,10 @@ h3.ticket_bottom{
     font-size: 17px;
     line-height: 100%;
     letter-spacing: 0.18em;
-    color: #2A2A2A;
+    color: #ffffff;
     margin:6px 6px 0;
 }
 
 .smallLetter{
     font-size: 14px!important;
-}
-
-.submit_button{
-    position: absolute;
-    left: 5vw;
-    top: 125px;
-    width: 70vw;
-    height: 26px;
-    border-radius: 50px;
-    border: none;
-    background-color: #11999E;
-    color: #E4F9F5;
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 100%;
-    letter-spacing: 0.12em;
-}
-
-#ticket_list h4{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 100%;
-    letter-spacing: 0.08em;
-    color: #2A2A2A;
-    margin:6px 0 0;
-}
-
-#modal_overlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0000008a;
-    display: none;
-}
-
-#modal_content{
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    border: 0px black solid;
-    border-radius: 15px;
-    background-color: white;
-    width: 80vw;
-    padding: 18px 5vw;
-    margin:0 0 35px;
-}
-
-#modal_content h1{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 17px;
-    line-height: 100%;
-    letter-spacing: 0.08em;
-    color: #2b2b2b;
-    margin:0 0 25px;
-}
-
-#modal_content h2{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 140%;
-    letter-spacing: 0.08em;
-    color: #2a2a2a;
-    margin:0 0 20px;
-}
-
-#modal_content button{
-    width: 80vw;
-    height: 26px;
-    border-radius: 50px;
-    border: none;
-    background-color: #11999E;
-    color: #E4F9F5;
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 100%;
-    letter-spacing: 0.12em;
-    margin: 10px 0 5px;
 }
