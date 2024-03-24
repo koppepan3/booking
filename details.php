@@ -59,7 +59,7 @@ if($date == 32){
         <?php
 
         try {
-            $stmt = $dbh->prepare("SELECT * FROM booking WHERE occupied_number != 3 AND DATE_FORMAT(starting_time, '%d')=".$date);
+            $stmt = $dbh->prepare("SELECT * FROM booking WHERE occupied_number < 3 AND DATE_FORMAT(starting_time, '%d')=".$date);
             $res = $stmt->execute();
             while($result = $stmt->fetch()) {
                 $availableTime = date('H:i',strtotime($result['starting_time']))."～".$availableTime = date('H:i',strtotime($result['ending_time']));;

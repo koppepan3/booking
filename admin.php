@@ -23,10 +23,11 @@ try{
         $starting_time = strtotime($result['starting_time']);
         $ending_time = strtotime($result['ending_time']);
         $last_space_id = $result['space_id'];
+        $default_space_id = $result['space_id'];
         if($starting_time <= time() && time() <= $ending_time){
             $default_space_id = $result['space_id'];
             break;
-        }else if($ending_time < time()){
+        }else if(time() < $starting_time){
             $default_space_id = $last_space_id;
             break;
         }
@@ -88,22 +89,16 @@ try{
                     <a href="javascript:void(0)" onclick="next_space();" id="next_arrow"><img src="file/arrow_back.svg"></a>
                 </div>
                 <div id="tickets_container">
-                <!--
+                    <!--
                     <div class="ticket">
                         <h3>チケットID:012<br>予約団体:13HR</h3>
-                        <div class="button_container">
-                            <button>確認</button>
-                            <button>ペナルティ</button>
-                        </div>
+                        <select class="selector" id="select_12">
+                            <option value="unselected">未選択</option>
+                            <option value="confirmed">確認済</option>
+                            <option value="unused">ペナルティ</option>
+                        </select>
                     </div>
-                    <div class="ticket">
-                        <h3>チケットID:012<br>予約団体:14HR</h3>
-                        <div class="button_container">
-                            <button>確認</button>
-                            <button>ペナルティ</button>
-                        </div>
-                    </div>
-                    -->
+                -->
                 </div>
             </div>
             <div id="content_2" class="content" >
@@ -144,18 +139,48 @@ try{
                     while($result1 = $stmt1->fetch()){
                         $ticket_id = $result1['ticket_index'];
                         $user_id = $result1['user_id'];
+                        $ticket_status = $result1['status'];
                         //ユーザ名をusersテーブルから取得
                         $stmt2 = $dbh->prepare('SELECT * FROM users WHERE user_id = '.$user_id);
                         $res2 = $stmt2->execute();
                         $result2 = $stmt2->fetch();
                         $ticket_group = $result2['user'];
+                        switch($ticket_status){
+                            case "before":
+                                ?>
+                                <!--チケット生成-->
+                                <script>
+                                    table = document.getElementById("tickets_container");
+                                    add_code = "<div class='ticket js_hidden space_id_<?php echo $space_id;?>'><h3>チケットID:<?php echo $ticket_id;?><br>予約団体:<?php echo $ticket_group;?></h3><select class='selector' id='select_<?php echo $ticket_id;?>'><option value='unselected' selected>未選択</option><option value='confirmed'>確認済</option><option value='unused'>ペナルティ</option></select></div>";
+                                    table.insertAdjacentHTML( 'beforeend', add_code);
+                                </script>
+                                <?php
+                                break;
+                            case "confirmed":
+                                ?>
+                                <!--チケット生成-->
+                                <script>
+                                    table = document.getElementById("tickets_container");
+                                    add_code = "<div class='ticket js_hidden space_id_<?php echo $space_id;?>'><h3>チケットID:<?php echo $ticket_id;?><br>予約団体:<?php echo $ticket_group;?></h3><select class='selector' id='select_<?php echo $ticket_id;?>'><option value='unselected'>未選択</option><option value='confirmed' selected>確認済</option><option value='unused'>ペナルティ</option></select></div>";
+                                    table.insertAdjacentHTML( 'beforeend', add_code);
+                                </script>
+                                <?php
+                                break;
+                            case "unused":
+                                ?>
+                                <!--チケット生成-->
+                                <script>
+                                    table = document.getElementById("tickets_container");
+                                    add_code = "<div class='ticket js_hidden space_id_<?php echo $space_id;?>'><h3>チケットID:<?php echo $ticket_id;?><br>予約団体:<?php echo $ticket_group;?></h3><select class='selector' id='select_<?php echo $ticket_id;?>'><option value='unselected'>未選択</option><option value='confirmed'>確認済</option><option value='unused' selected>ペナルティ</option></select></div>";
+                                    table.insertAdjacentHTML( 'beforeend', add_code);
+                                </script>
+                                <?php
+                                break;
+                            default:
+                                break;
+                            }
                         ?>
-                        <!--チケット生成-->
-                        <script>
-                            table = document.getElementById("tickets_container");
-                            add_code = "<div class='ticket js_hidden space_id_<?php echo $space_id;?>'><h3>チケットID:<?php echo $ticket_id;?><br>予約団体:<?php echo $ticket_group;?></h3><div class='button_container'><button>確認</button><button>ペナルティ</button></div></div>";
-                            table.insertAdjacentHTML( 'beforeend', add_code);
-                        </script>
+                        
                         <?php
                     }
                 }   
@@ -264,5 +289,34 @@ try{
             header("Location:error.php?error_code=701");
         };
         ?>
+        <!--利用状況送信処理-->
+        <script>
+            async function fetchData(ticket_id, status) {
+                console.log(status) ;
+                const postData = {
+                    ticket_id: ticket_id,
+                    status: status
+                }
+                var data = await fetch("request.php",
+                {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                } );
+            }
+            var selectors = document.getElementsByClassName("selector");
+            var selectors_array = Array.from(selectors);
+            selectors_array.forEach(function(target) {
+            target.addEventListener('change',  (e) => {
+                var str = target.id;
+                var id = str.substr(7);
+                SelectedValue = e.target.value;
+                fetchData(id, SelectedValue);
+            })});
+
+            
+        </script>
     </body>
 </html>

@@ -45,34 +45,6 @@
     height: 100%;
 }
 
-/*
-#slider::before{
-    position: absolute;
-    top: 10px;
-    left: 5px;
-    content:'';
-    display: inline-block;
-    width: 24px;
-    height:24px;
-    background-image:url(file/arrow_back.svg);
-    background-size: contain;
-    transform: translateX(0%) translateY(-50%);
-}
-
-#slider::after{
-    position: absolute;
-    top: 10px;
-    right: 5px;
-    content:'';
-    display: inline-block;
-    width: 24px;
-    height:24px;
-    background-image:url(file/arrow_back.svg);
-    background-size: contain;
-    transform: translateX(0%) translateY(-50%) rotate(180deg);
-}
-*/
-
 .js_hidden{
     display: none;
 }
@@ -103,6 +75,28 @@
     top: 40px;
     left: 18px;
     transform: translateY(-50%);
+}
+
+.ticket select{
+    height: 30px;
+    text-indent: 5px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0.08em;
+    color: #5F5F5F;
+    margin:0;
+    padding: 5px;
+    border: none;
+    border-radius: 200px;
+    position: absolute;
+    right: 10px;
+    top:40px;
+    transform: translateY(-50%);
+    text-align: center;
 }
 
 .button_container{
