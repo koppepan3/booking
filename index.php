@@ -8,6 +8,11 @@ if (isset($_SESSION['user_id'])) {//ログインしている時
     header("Location:loginform.php");
 }
 
+//備品班の場合管理画面に遷移
+if($user_id == 1){
+    header("Location:admin.php");
+}
+
 include('dbconnect.php');//DB接続情報読み込み
 
 //URLパラメータ取得処理
