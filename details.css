@@ -28,58 +28,21 @@
 }
 
 .ticket{
-    background-color: #E4F9F5;
-    border: 0px black solid;
-    border-radius: 12px;
+    border-top: 1.5px #969696 solid;
     position: relative;
-    height: 55px;
-    margin-bottom: 20px;
+    height: 74px;
+    margin: 0px;
 }
 
-.ticket::before{
-    position: absolute;
-    content: '';
-    left: 55vw;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: white;
-    transform: translateX(-50%) translateY(-50%);
-    top: 0px;
-}
-
-.ticket::after{
-    position: absolute;
-    content: '';
-    left: 55vw;
-    z-index: 10;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: white;
-    transform: translateX(-50%) translateY(50%);
-    bottom: 0px;
-}
 
 .ticket_left{
     position: absolute;
-    width: 40vw;
-    height: 40px;
-    left: 0vw;
-    top: 7.5px;
-}
-
-.ticket_middle{
-    position: absolute;
-    width: 15vw;
-    height: 40px;
-    left: 40vw;
-    top: 7.5px;
+    left: 10px;
+    top: 37px;
+    transform: translateY(-50%);
 }
 
 .ticket_right{
-    border-left: 1px dashed #C8C8C8 ;
     position: absolute;
     width: 25vw;
     height: 40px;
@@ -87,62 +50,28 @@
     top: 7.5px;
 }
 
-.ticket_left p{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 8px;
-    line-height: 100%;
-    letter-spacing: 0.08em;
-    color: #8A8A8A;
-    margin:2px 0 0 15px;
-}
-
 .ticket_left h3{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 0.18em;
-    color: #2A2A2A;
-    margin:4px 0 0 20px;
-}
-
-.ticket_middle p{
-    font-family: 'Zen Kaku Gothic New';
+    font-family: 'Noto Sans JP';
     font-style: normal;
     font-weight: 500;
-    font-size: 8px;
+    font-size: 18px;
     line-height: 100%;
     letter-spacing: 0.08em;
-    color: #8A8A8A;
-    margin:2px 0 0 0;
-}
-
-.ticket_middle h3{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 100%;
-    letter-spacing: 0.18em;
     color: #2A2A2A;
-    margin:4px 0 0 8px;
+    margin:0;
 }
 
-.submit_button{
-    margin: 5.5px 3vw;
-    width: 19vw;
-    height: 29px;
-    border-radius: 50px;
-    border: none;
-    background-color: #11999E;
-    color: #E4F9F5;
-    font-family: 'Zen Kaku Gothic New';
+.ticket_right h3{
+    font-family: 'Noto Sans JP';
     font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
+    font-weight: 700;
+    font-size: 15px;
     line-height: 100%;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
+    color: #11999E;
+    margin:0;
+}
+
+.ticket_right img{
+    width: 35px;
 }

@@ -33,7 +33,7 @@ if($date == 32){
         <!--  Google Font 読み込み  -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -49,7 +49,12 @@ if($date == 32){
             <img id="statusBar" src="file/statusBar_1.svg">
             <div class="content"id="content_1">
                 <h1><?php echo $MonthDate; ?>の予約状況</h1>
-                <div id="ticket_list"></div>
+                <div id="ticket_list">
+                    <div class="ticket">
+                        <div class="ticket_left"><h3>22:17～22:17</h3></div>
+                        <div class="ticket_right"><h3>予約する</h3><img src="file/arrow_circle.svg"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
