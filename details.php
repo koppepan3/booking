@@ -33,7 +33,7 @@ if($date == 32){
         <!--  Google Font 読み込み  -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -48,12 +48,9 @@ if($date == 32){
             <a href="index.php"><h1 id="backToTop"></h1></a>
             <img id="statusBar" src="file/statusBar_1.svg">
             <div class="content"id="content_1">
+                <div id="dates_selector"><div class="date_select"><h4>月</h4><h3>13</h3></div></div>
                 <h1><?php echo $MonthDate; ?>の予約状況</h1>
                 <div id="ticket_list">
-                    <div class="ticket">
-                        <div class="ticket_left"><h3>22:17～22:17</h3></div>
-                        <div class="ticket_right"><h3>予約する</h3><img src="file/arrow_circle.svg"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -73,7 +70,7 @@ if($date == 32){
                 ?>
             <script>
                 table = document.getElementById("ticket_list");
-                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><p>時間帯</p><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_middle\"><p>残り枠数</p><h3><?php echo $availableNumber; ?></h3></div><div class=\"ticket_right\"><button onclick=\"location.href=\'form.php?space_id=<?php echo $space_id; ?>\'\" class=\"submit_button\">予約する</button></div></div>";
+                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><h3>22:17～22:17</h3></div><div class=\"ticket_right\"><a href=\"form.php?space_id=<?php echo $space_id; ?>\"><h3>予約する</h3><img src=\"file/arrow_circle.svg\"></a></div></div>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php
