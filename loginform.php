@@ -4,7 +4,6 @@ if (isset($_SESSION['user_id'])) {//ログインしているとき
     header("Location:index.php");
 } else {//ログインしていない時
 }
-include('dbconnect.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,13 +27,12 @@ include('dbconnect.php');
                 <a href="index.php"><h1>駐輪場予約サイト</h1></a>
         </header>
         <div id="contents">
-            <div class="content1">
+            <div class="content">
                 <h1>予約システムログイン</h1>
                 <form action="login.php" method="post">
                     <div id="select_holder" class="holder">
-                        
                         <label>
-                            HR・部活<?php echo "sfdsdf";?>
+                            HR・部活
                             <select name="user" required>
                                 <option value="2">11HR</option>
                                 <option value="3">12HR</option>

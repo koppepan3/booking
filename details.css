@@ -28,35 +28,65 @@
 }
 
 #dates_selector{
-    width: 20%;
+    width: 100%;
     text-align: center;
-    margin: 0 0 10px;
+    margin: 0 0 35px;
+    display: flex;
+}
+
+.date_select{
+    width:20%;
+    text-align: center;
 }
 
 .date_select h4{
     font-family: 'Noto Sans JP';
     font-style: normal;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 100%;
     letter-spacing: 0.08em;
-    color: #2A2A2A;
-    margin:0;
+    color: #373737;
+    margin:10px 0 0;
+}
+
+.date_holder{
+    height: 11vw;
+    width: 11vw;
+    border-radius: 100px;
+    border: none;
+    margin: 15px 2.5vw 0;
+    position: relative;
+}
+
+.date_select_today{
+    .date_holder{
+        background-color:#373737;
+    }
+
+    h3{
+        color: white !important;
+    }
 }
 
 .date_select h3{
     font-family: 'Noto Sans JP';
     font-style: normal;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 100%;
     letter-spacing: -0.02em;
-    color: #2A2A2A;
-    margin:18px 0;
+    color: #737373;
+    position: absolute;
+    top: 5.5vw;
+    left: 5.5vw;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    margin: 0;
 }
 
 .ticket{
-    border-top: 1.5px #969696 solid;
+    border-top: 1px #b5b5b5 solid;
     position: relative;
     height: 74px;
     margin: 0px;
@@ -65,7 +95,7 @@
 
 .ticket_left{
     position: absolute;
-    left: 10px;
+    left: 15px;
     top: 37px;
     transform: translateY(-50%);
 }
@@ -93,7 +123,7 @@
     font-family: 'Noto Sans JP';
     font-style: normal;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 100%;
     letter-spacing: 0.08em;
     color: #11999E;

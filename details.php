@@ -48,8 +48,13 @@ if($date == 32){
             <a href="index.php"><h1 id="backToTop"></h1></a>
             <img id="statusBar" src="file/statusBar_1.svg">
             <div class="content"id="content_1">
-                <div id="dates_selector"><div class="date_select"><h4>月</h4><h3>13</h3></div></div>
-                <h1><?php echo $MonthDate; ?>の予約状況</h1>
+                <div id="dates_selector">
+                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
+                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
+                    <div class="date_select date_select_today"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
+                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
+                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
+                </div>
                 <div id="ticket_list">
                 </div>
             </div>
