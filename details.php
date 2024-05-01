@@ -52,6 +52,7 @@ if($date == 32){
                 </div>
                 <div id="ticket_list">
                 </div>
+                <div id="ticket_last_line"></div>
             </div>
         </div>
 
@@ -70,11 +71,12 @@ if($date == 32){
                 ?>
             <script>
                 table = document.getElementById("ticket_list");
-                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><h3>22:17～22:17</h3></div><div class=\"ticket_right\"><a href=\"form.php?space_id=<?php echo $space_id; ?>\"><h3>予約する</h3><img src=\"file/arrow_circle.svg\"></a></div></div>";
+                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_right\"><a href=\"form.php?space_id=<?php echo $space_id; ?>\"><h3>予約する</h3><img src=\"file/arrow_circle.svg\"></a></div></div>";
                 table.insertAdjacentHTML( 'beforeend', add_code);
             </script>
         <?php
             }
+
             $stmt1 = $dbh->prepare("SELECT * FROM booking");
             $res1 = $stmt1->execute();
             $dates_array = array();
