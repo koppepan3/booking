@@ -49,11 +49,6 @@ if($date == 32){
             <img id="statusBar" src="file/statusBar_1.svg">
             <div class="content"id="content_1">
                 <div id="dates_selector">
-                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
-                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
-                    <div class="date_select date_select_today"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
-                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
-                    <div class="date_select"><h4>月</h4><div class="date_holder"><h3>13</h3></div></div>
                 </div>
                 <div id="ticket_list">
                 </div>
@@ -62,7 +57,7 @@ if($date == 32){
 
         <!--jQuery読み込み-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script>let table = document.getElementById("table_container");let add_code = "";</script>
+        <script>let table = document.getElementById("table_container");let dateSelector = document.getElementById("dates_selector");let add_code = "";</script>
         <?php
 
         try {
@@ -80,6 +75,62 @@ if($date == 32){
             </script>
         <?php
             }
+            $stmt1 = $dbh->prepare("SELECT * FROM booking");
+            $res1 = $stmt1->execute();
+            $dates_array = array();
+            $week_array = array();
+            $week = [
+                '日', //0
+                '月', //1
+                '火', //2
+                '水', //3
+                '木', //4
+                '金', //5
+                '土', //6
+              ];
+            while($result1 = $stmt1->fetch()) {
+                $result_date = date('j',strtotime($result1['starting_time']));
+                $result_week = date('w',strtotime($result1['starting_time']));
+                $dates_array[] = $result_date;
+                $week_array[] = $week[$result_week];
+            }
+            $sorted_dates_array = array_values(array_unique($dates_array)); 
+            $sorted_week_array = array_values(array_unique($week_array)); 
+            $array_key = array_search($date, $sorted_dates_array);
+            $i = -2;
+            while($i <= 2){
+                $array_key_i = $array_key + $i;
+                echo $array_key_i;
+                if(array_key_exists($array_key_i, $sorted_dates_array) && $array_key_i > -1){
+                    $date_i = $sorted_dates_array[$array_key_i];
+                    $week_i = $sorted_week_array[$array_key_i];
+                }else{
+                    $date_i = "";
+                    $week_i = "";
+                }
+                if($i == 0){
+                    ?>
+                    <script>
+                        dateSelector = document.getElementById("dates_selector");
+                        add_code = "<div class=\"date_select date_select_today\"><h4><?php echo $week_i; ?></h4><a href=\"details.php?date=<?php echo $date_i; ?>\"><div class=\"date_holder\"><h3><?php echo $date_i; ?></h3></div></a></div>";
+                        dateSelector.insertAdjacentHTML( 'beforeend', add_code);
+                    </script>
+                    <?php
+                }else{
+                    ?>
+                    <script>
+                        dateSelector = document.getElementById("dates_selector");
+                        add_code = "<div class=\"date_select\"><h4><?php echo $week_i; ?></h4><a href=\"details.php?date=<?php echo $date_i; ?>\"><div class=\"date_holder\"><h3><?php echo $date_i; ?></h3></div></a></div>";
+                        dateSelector.insertAdjacentHTML( 'beforeend', add_code);
+                    </script>
+                    <?php
+                }
+                $i++;
+            }
+            echo $array_key;
+            echo $sorted_dates_array[0];
+            echo $sorted_dates_array[1];
+
         } catch (PDOException $e) {
             echo "接続失敗 ";
             header("Location: error.php?error_code=701");
