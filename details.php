@@ -11,11 +11,6 @@ if (isset($_SESSION['user_id'])) {//ログインしている時
 include('dbconnect.php');//DB接続情報読み込み
 
 if(isset($_GET['date'])) { $date = $_GET['date']; } 
-if($date == 32){
-    $MonthDate = "6月1日";
-}else{
-    $MonthDate = "5月".$date."日";
-}
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +73,7 @@ if($date == 32){
             }
 
             //上部の日付スライダー生成処理
-            $stmt1 = $dbh->prepare("SELECT * FROM booking");
+            $stmt1 = $dbh->prepare("SELECT * FROM booking WHERE occupied_number < 3");
             $res1 = $stmt1->execute();
             //配列の準備
             $dates_array = array();
@@ -97,7 +92,11 @@ if($date == 32){
             while($result1 = $stmt1->fetch()) {
                 $result_date = date('j',strtotime($result1['starting_time']));
                 $result_week = date('w',strtotime($result1['starting_time']));
-                if($result_date != $dates_array[$loop_counter - 1]){
+                echo $result_date;
+                if($loop_counter == 0){
+                    $dates_array[] = $result_date;
+                    $week_array[] = $week[$result_week];
+                }elseif($result_date != end($dates_array)){
                     //重複して同じ日を配列に入れないようにする
                     $dates_array[] = $result_date;
                     $week_array[] = $week[$result_week];
