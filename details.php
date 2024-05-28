@@ -60,7 +60,7 @@ if($date == 32){
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script>let table = document.getElementById("table_container");let dateSelector = document.getElementById("dates_selector");let add_code = "";</script>
         <?php
-
+        //チケットの生成php&JS
         try {
             $stmt = $dbh->prepare("SELECT * FROM booking WHERE occupied_number < 3 AND DATE_FORMAT(starting_time, '%d')=".$date);
             $res = $stmt->execute();
@@ -77,10 +77,13 @@ if($date == 32){
         <?php
             }
 
+            //上部の日付スライダー生成処理
             $stmt1 = $dbh->prepare("SELECT * FROM booking");
             $res1 = $stmt1->execute();
+            //配列の準備
             $dates_array = array();
             $week_array = array();
+            //曜日と数字の対応を定義する配列
             $week = [
                 '日', //0
                 '月', //1
@@ -89,26 +92,30 @@ if($date == 32){
                 '木', //4
                 '金', //5
                 '土', //6
-              ];
+            ];
+            $loop_counter = 0;
             while($result1 = $stmt1->fetch()) {
                 $result_date = date('j',strtotime($result1['starting_time']));
                 $result_week = date('w',strtotime($result1['starting_time']));
-                $dates_array[] = $result_date;
-                $week_array[] = $week[$result_week];
+                if($result_date != $dates_array[$loop_counter - 1]){
+                    //重複して同じ日を配列に入れないようにする
+                    $dates_array[] = $result_date;
+                    $week_array[] = $week[$result_week];
+                }
+                $loop_counter++;
             }
-            $sorted_dates_array = array_values(array_unique($dates_array)); 
-            $sorted_week_array = array_values(array_unique($week_array)); 
-            $array_key = array_search($date, $sorted_dates_array);
+            $array_key = array_search($date, $dates_array);
             $i = -2;
             while($i <= 2){
                 $array_key_i = $array_key + $i;
                 echo $array_key_i;
-                if(array_key_exists($array_key_i, $sorted_dates_array) && $array_key_i > -1){
-                    $date_i = $sorted_dates_array[$array_key_i];
-                    $week_i = $sorted_week_array[$array_key_i];
+                if(array_key_exists($array_key_i, $dates_array) && $array_key_i > -1){
+                    $date_i = $dates_array[$array_key_i];
+                    $week_i = $week_array[$array_key_i]; 
                 }else{
                     $date_i = "";
                     $week_i = "";
+                   
                 }
                 if($i == 0){
                     ?>
@@ -129,9 +136,6 @@ if($date == 32){
                 }
                 $i++;
             }
-            echo $array_key;
-            echo $sorted_dates_array[0];
-            echo $sorted_dates_array[1];
 
         } catch (PDOException $e) {
             echo "接続失敗 ";
