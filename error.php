@@ -1,12 +1,5 @@
 <?php
-//ログイン確認処理
-session_start();
-if (isset($_SESSION['user_id'])) {//ログインしている時
-    $username = $_SESSION['user'];
-    $user_id = $_SESSION['user_id'];
-} else {//ログインしていない時
-    header("Location:loginform.php");
-}
+
 
 if(isset($_GET['error_code'])) { $error_code = $_GET['error_code']; } 
 
