@@ -136,6 +136,7 @@ while($result1 = $stmt1->fetch()){
                 $ticket_group = $result4['user'];
                 switch($ticket_status){
                     case "before": 
+                        echo "b";
                     //まだ記録していない場合の処理
                         ?>
                         <script>
@@ -147,6 +148,7 @@ while($result1 = $stmt1->fetch()){
                         break;
                     case "confirmed":
                     //確認済みと記録されている場合の処理
+                    echo "c";
                         ?>
                         <script>
                             table = document.getElementById("tickets_container");
@@ -165,6 +167,16 @@ while($result1 = $stmt1->fetch()){
                         </script>
                         <?php
                         break;
+                    case "reserved":
+                        //予約済み(一時間以上前)と記録された場合の処理
+                            ?>
+                            <script>
+                                table = document.getElementById("tickets_container");
+                                add_code = "<div class='ticket js_hidden space_id_<?php echo $space_id;?>'><h3>チケットID:<?php echo $ticket_id;?><br>予約団体:<?php echo $ticket_group;?></h3></div>";
+                                table.insertAdjacentHTML( 'beforeend', add_code);
+                            </script>
+                            <?php
+                            break;
                     default:
                     //例外処理
                         break;
