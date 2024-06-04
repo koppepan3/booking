@@ -85,7 +85,13 @@ try{
                 $res = $stmt->execute();
                 $result = $stmt->fetch();
                 $occupied_number = $result['occupied_number'];
-                if($occupied_number < 3 ){//枠が開いている場合の処理
+                $stmt3 = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id."  AND (status = 'reserved' OR status = 'before')");
+                $res3 = $stmt3->execute();
+                $UserTicketCount = 0;
+                while($data = $stmt3->fetch()){
+                    $UserTicketCount++;
+                }
+                if($occupied_number < 3 && $UserTicketCount < 2){//枠が開いている場合の処理
                     $stmt1 = $dbh->prepare("UPDATE booking SET occupied_number = occupied_number + 1 WHERE space_id = ".$space_id);
                     $res1 = $stmt1->execute();
                     $stmt2 = $dbh->prepare("INSERT INTO tickets (user_id, attatched_space, status, starting_time, ending_time) VALUES (".$user_id.", ".$space_id.", 'reserved', '".$starting_time."', '".$ending_time."');SELECT LAST_INSERT_ID();");
