@@ -1,19 +1,9 @@
 <?php
-//ログイン確認処理
-session_start();
-if (isset($_SESSION['user_id'])) {//ログインしている時
-    $username = $_SESSION['user'];
-    $user_id = $_SESSION['user_id'];
-} else {//ログインしていない時
-    header("Location:loginform.php");
-}
+//ファイルパス取得処理
+$current_page = basename(__FILE__, ".php");
 
-//備品班の場合管理画面に遷移
-if($user_id == 1){
-    header("Location:admin.php");
-}
-
-include('dbconnect.php');//DB接続情報読み込み
+//共通バックエンド処理読み込み
+include('backend.php');
 
 //URLパラメータ取得処理
 if(isset($_GET['message'])){
@@ -64,7 +54,9 @@ if(isset($_GET['message'])){
                     <tr id="week">
                         <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
                     </tr>
-                    
+                    <?php 
+                        GenerateCalender($calender_row_array);
+                    ?>
                     <tr>
                         <td class="calendar_unavailable">7</td><td class="calendar_unavailable">8</td><td class="calendar_unavailable">9</td><td class="calendar_unavailable">10</td><td class="calendar_unavailable">11</td><td class="calendar_unavailable">12</td><td class="calendar_unavailable" id="date13">13</td>
                     </tr>
