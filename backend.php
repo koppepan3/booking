@@ -28,21 +28,48 @@ if (isset($_SESSION['user_id'])) {
 //DB接続情報読み込み
 include('dbconnect.php');
 
-//カレンダーの日時設定
-$calender_row_1 = [7, 8, 9, 10, 11, 12, 13];
-$calender_row_2 = [14, 15, 16, 17, 18, 19, 20];
-$calender_row_3 = [14, 15, 16, 17, 18, 19, 20];
-$calender_row_4 = [14, 15, 16, 17, 18, 19, 20];
-$calender_row_5 = [14, 15, 16, 17, 18, 19, 20];
-$calender_row_array = [$calender_row_1, $calender_row_2, $calender_row_3, $calender_row_4, $calender_row_5];
+//団体の予約上限のチェック
+$stmt = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id."  AND (status = 'reserved' OR status = 'before')");
+$res = $stmt->execute();
+$reserved_tickets_count = 0;
+while($result = $stmt->fetch()){
+    $reserved_tickets_count++;
+}
+
+//DBからカレンダーの内容を取得して配列にいれる処理
+$stmt = $dbh->prepare("SELECT * from calendar");
+$res = $stmt->execute();
+$order_count = 0;
+while($result= $stmt->fetch()){
+    $date_calender_array[$order_count] = date("j",strtotime($result['date']));
+    $date_class_array[$order_count] = "calendar_unavailable";
+    $order_count++;
+}
+
+//その日に空き枠があるかないかの判定
+function EmptyTickets(){
+
+}
 
 //トップページのカレンダー生成処理
-function GenerateCalender($calender){
-    for ($row = 0; $row <= 4; $row++) {
+function GenerateCalender($calendar_array, $class_array){
+    //配列からカレンダーの行数(高さ)を取得
+    $calendar_array_length = count($calendar_array);
+    $calendar_row = ceil($calendar_array_length / 7) - 1;
+
+    for ($row = 0; $row <= $calendar_row; $row++) {
         echo "<tr>";
         for ($column = 0; $column <= 6; $column++) {
-            echo "<td class='calendar_unavailable'>".$calender[$row][$column]."</td>";
+            $calendar_index = 7 * $row + $column;
+            echo "<td class='".$class_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</td>";
         }
         echo "</tr>";
     }
 }
+
+/*
+try {
+    $stmt = $dbh->prepare("");
+    $res = $stmt->execute();
+};
+*/
