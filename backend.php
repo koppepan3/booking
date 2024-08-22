@@ -4,7 +4,7 @@
 session_start();
 if (isset($_SESSION['user_id'])) {
     //ログインしている時
-
+    //セッションからユーザ名等取得
     $username = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];
     //閲覧権限
@@ -28,6 +28,16 @@ if (isset($_SESSION['user_id'])) {
 //DB接続情報読み込み
 include('dbconnect.php');
 
+//団体の予約状態取得
+function GetUserReservedInfo($PDO, $user_id) {
+    $user_tickets_array = [];
+    $stmt = $PDO->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id." AND (status = 'reserved' OR status = 'before')");
+    $res = $stmt->execute();
+    while($result = $stmt->fetch()){
+        $user_tickets_array[] = $result;
+    }
+}
+
 //団体の予約上限のチェック
 $stmt = $dbh->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id."  AND (status = 'reserved' OR status = 'before')");
 $res = $stmt->execute();
@@ -40,19 +50,44 @@ while($result = $stmt->fetch()){
 $stmt = $dbh->prepare("SELECT * from calendar");
 $res = $stmt->execute();
 $order_count = 0;
-while($result= $stmt->fetch()){
-    $date_calender_array[$order_count] = date("j",strtotime($result['date']));
-    $date_class_array[$order_count] = "calendar_unavailable";
+while($result = $stmt->fetch()){
+    $date_calendar_array[$order_count] = date("j",strtotime($result['date']));
+    $ymd_calendar_array[$order_count] = date("Y-m-d",strtotime($result['date']));
+    //クラス名決定
+    $today = date("Y-m-d");
+    if (strtotime($result['date']) < strtotime($today)){
+        $date_class_array[$order_count] = "calendar_past";
+    }else if(strtotime($result['date']) == strtotime($today)){
+        $date_class_array[$order_count] = "calendar_today";
+        if(EmptyTickets($result['date'], $dbh) == false){
+            $date_class_array[$order_count] = "calendar_today_unavaiable";
+        }
+    }else{
+        if(EmptyTickets($result['date'], $dbh) == true){
+            $date_class_array[$order_count] = "calendar_avaiable";
+        }else{
+            $date_class_array[$order_count] = "calendar_unavailable";
+        }
+    }
     $order_count++;
 }
 
 //その日に空き枠があるかないかの判定
-function EmptyTickets(){
-
+function EmptyTickets($date, $PDO){
+    $stmt = $PDO->prepare("SELECT * FROM booking WHERE occupied_number < 3 AND DATE_FORMAT(starting_time, '%Y-%m-%d') = DATE_FORMAT(:date, '%Y-%m-%d')");
+    $stmt->bindValue(':date', $date);
+    $res = $stmt->execute();
+    if($result = $stmt->fetch()){
+        //空き枠があった場合
+        return true;
+    }else{
+        //空き枠がなかった場合
+        return false;
+    }    
 }
 
 //トップページのカレンダー生成処理
-function GenerateCalender($calendar_array, $class_array){
+function GenerateCalender($calendar_array, $class_array, $calendar_ymd_array){
     //配列からカレンダーの行数(高さ)を取得
     $calendar_array_length = count($calendar_array);
     $calendar_row = ceil($calendar_array_length / 7) - 1;
@@ -61,7 +96,14 @@ function GenerateCalender($calendar_array, $class_array){
         echo "<tr>";
         for ($column = 0; $column <= 6; $column++) {
             $calendar_index = 7 * $row + $column;
-            echo "<td class='".$class_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</td>";
+            if(
+                $class_array[$calendar_index] == "calendar_today" ||
+                $class_array[$calendar_index] == "calendar_avaiable"
+                ){
+                echo "<td class='".$class_array[$calendar_index]."'><a href='details.php?date=".$calendar_ymd_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</a></td>";
+            }else{
+                echo "<td class='".$class_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</td>";
+            }
         }
         echo "</tr>";
     }

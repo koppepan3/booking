@@ -54,9 +54,7 @@ if(isset($_GET['message'])){
                     <tr id="week">
                         <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
                     </tr>
-                    <?php 
-                        GenerateCalender($date_calender_array, $date_class_array);
-                    ?>
+                    <?php GenerateCalender($date_calendar_array, $date_class_array, $ymd_calendar_array); GetUserReservedInfo($dbh, $user_id)?>
                     <!--
                     <tr>
                         <td class="calendar_unavailable">7</td><td class="calendar_unavailable">8</td><td class="calendar_unavailable">9</td><td class="calendar_unavailable">10</td><td class="calendar_unavailable">11</td><td class="calendar_unavailable">12</td><td class="calendar_unavailable" id="date13">13</td>
@@ -97,36 +95,6 @@ if(isset($_GET['message'])){
 
         <!--jQuery読み込み-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <?php
-        try {
-
-            //同時予約数が上限未満の場合
-            //空いている枠のある日にclassとリンク付与
-            if($reserved_tickets_count < 2){
-            $stmt = $dbh->prepare('SELECT * FROM booking WHERE occupied_number < 3');
-            $res = $stmt->execute();
-            while($data = $stmt->fetch()) {
-                $availableDate = date('d',strtotime($data['starting_time']));
-                ?>
-        <script>
-            $(<?php echo "\"#date".$availableDate."\""; ?>).removeClass("calendar_unavailable");
-            $(<?php echo "\"#date".$availableDate."\""; ?>).on("click", function() {
-                window.location.href = 'details.php?date=<?php echo $availableDate; ?>';
-            });
-        </script>
-        <?php
-            }
-        }
-        } catch (PDOException $e) {
-            echo "接続失敗 ";
-            header("Location: error.php?error_code=701");
-        };
-        ?>
-
-        <!--今日の日付を取得してクラス付与-->
-        <script>
-            $(<?php echo "\"#date".date('d')."\""; ?>).addClass("calendar_today");
-        </script>
 
         <?php
         //団体の予約内容取得処理

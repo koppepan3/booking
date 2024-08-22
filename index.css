@@ -103,7 +103,7 @@
     color: #0F0F0F;
 }
 
-.calendar_today {
+.calendar_today, .calendar_today_unavaiable{
     border-radius: 7vw;
     background-color: #222222;
     color: #ffffff !important;
@@ -117,6 +117,10 @@
     color: #A3A3A3 !important;
     text-decoration: line-through;
     text-decoration-thickness: 2px ;
+}
+
+.calendar_past { 
+    color: #A3A3A3 !important;
 }
 
 #content_2 a{
