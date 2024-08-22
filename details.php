@@ -1,15 +1,11 @@
 <?php
-//ログイン確認処理
-session_start();
-if (isset($_SESSION['user_id'])) {//ログインしている時
-    $username = $_SESSION['user'];
-    $user_id = $_SESSION['user_id'];
-} else {//ログインしていない時
-    header("Location:loginform.php");
-}
+//ファイルパス取得処理
+$current_page = basename(__FILE__, ".php");
 
-include('dbconnect.php');//DB接続情報読み込み
+//共通バックエンド処理読み込み
+include('backend.php');
 
+//URLパラメータ取得
 if(isset($_GET['date'])) { $date = $_GET['date']; } 
 ?>
 
@@ -46,6 +42,7 @@ if(isset($_GET['date'])) { $date = $_GET['date']; }
                 <div id="dates_selector">
                 </div>
                 <div id="ticket_list">
+                    <?php GenerateDayTicket($dbh, $date); ?>
                 </div>
                 <div id="ticket_last_line"></div>
             </div>
@@ -57,20 +54,6 @@ if(isset($_GET['date'])) { $date = $_GET['date']; }
         <?php
         //チケットの生成php&JS
         try {
-            $stmt = $dbh->prepare("SELECT * FROM booking WHERE occupied_number < 3 AND DATE_FORMAT(starting_time, '%d')=".$date);
-            $res = $stmt->execute();
-            while($result = $stmt->fetch()) {
-                $availableTime = date('H:i',strtotime($result['starting_time']))."～".$availableTime = date('H:i',strtotime($result['ending_time']));;
-                $availableNumber = 3 - $result['occupied_number'];
-                $space_id = $result['space_id'];
-                ?>
-            <script>
-                table = document.getElementById("ticket_list");
-                add_code = "<div class=\"ticket\"><div class=\"ticket_left\"><h3><?php echo $availableTime; ?></h3></div><div class=\"ticket_right\"><a href=\"form.php?space_id=<?php echo $space_id; ?>\"><h3>予約する</h3><img src=\"file/arrow_circle.svg\"></a></div></div>";
-                table.insertAdjacentHTML( 'beforeend', add_code);
-            </script>
-        <?php
-            }
 
             //上部の日付スライダー生成処理
             $stmt1 = $dbh->prepare("SELECT * FROM booking WHERE occupied_number < 3");

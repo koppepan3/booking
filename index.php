@@ -55,23 +55,6 @@ if(isset($_GET['message'])){
                         <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
                     </tr>
                     <?php GenerateCalender($date_calendar_array, $date_class_array, $ymd_calendar_array);?>
-                    <!--
-                    <tr>
-                        <td class="calendar_unavailable">7</td><td class="calendar_unavailable">8</td><td class="calendar_unavailable">9</td><td class="calendar_unavailable">10</td><td class="calendar_unavailable">11</td><td class="calendar_unavailable">12</td><td class="calendar_unavailable" id="date13">13</td>
-                    </tr>
-                    <tr>
-                        <td class="calendar_unavailable" id="date14">14</td><td class="calendar_unavailable" id="date15">15</td><td class="calendar_unavailable" id="date16">16</td><td class="calendar_unavailable" id="date17">17</td><td id="date18" class="calendar_unavailable">18</td><td class="calendar_unavailable" id="date19">19</td><td class="calendar_unavailable" id="date20">20</td>
-                    </tr>
-                    <tr>
-                        <td class="calendar_unavailable" id="date21">21</td><td class="calendar_unavailable" id="date22">22</td><td class="calendar_unavailable" id="date23">23</td><td class="calendar_unavailable" id="date24">24</td><td class="calendar_unavailable" id="date25">25</td><td class="calendar_unavailable" id="date26">26</td><td class="calendar_unavailable" id="date27">27</td>
-                    </tr>
-                    <tr>
-                        <td class="calendar_unavailable" id="date28">28</td><td class="calendar_unavailable" id="date29">29</td><td class="calendar_unavailable" id="date30">30</td><td class="calendar_unavailable" id="date31">31</td><td class="calendar_unavailable" id="date01">1</td><td class="calendar_unavailable" id="date02">2</td><td class="calendar_unavailable" id="date03">3</td>
-                    </tr>
-                    <tr>
-                        <td class="calendar_unavailable" id="date4">4</td><td class="calendar_unavailable" id="date5">5</td><td class="calendar_unavailable" id="date6">6</td><td class="calendar_unavailable" id="date7">7</td><td class="calendar_unavailable" id="date8">8</td><td class="calendar_unavailable" id="date9">9</td><td class="calendar_unavailable" id="date10">10</td>
-                    </tr>
-                    -->
                 </table>
             </div>
             <div id="content_3" class="content">
