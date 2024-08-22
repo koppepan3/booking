@@ -28,14 +28,42 @@ if (isset($_SESSION['user_id'])) {
 //DB接続情報読み込み
 include('dbconnect.php');
 
+//団体の予約状態表示
+function GenerateUserReservedTickets($PDO, $user_id, $username){
+    $user_tickets_array = GetUserReservedInfo($PDO, $user_id);
+    $tickets_array_length = count($user_tickets_array);
+    if($tickets_array_length == 0){
+        echo "<h4>現在、予約された枠はありません。</h4>";
+    }else{
+        for($tickets = 0; $tickets <= $tickets_array_length - 1; $tickets++){
+            $ticket_start = $user_tickets_array[$tickets]['starting_time'];
+            $ticket_end = $user_tickets_array[$tickets]['ending_time'];
+            $ticket_month = date('n', strtotime($ticket_start));
+            $ticket_date = date('d', strtotime($ticket_start));
+            $ticket_start_time = date('H:i', strtotime($ticket_start));
+            $ticket_end_time = date('H:i', strtotime($ticket_end));
+            $ticket_id = $user_tickets_array[$tickets]['ticket_index'];
+            if($user_tickets_array[$tickets]['status'] == 'reserved'){
+                $ticket_button = "<button class='submit_button' onclick=\"location.href='cancelform.php?ticket_id=$ticket_id'\">予約をキャンセルする</button>";
+            }elseif($user_tickets_array[$tickets]['status'] == 'before'){
+                $ticket_button = "<button class='submit_button_disabed' onclick=''>キャンセル不可(予約一時間前)</button>";
+            }
+            echo "<div class='reserved_ticket'><div class='ticket_left'><p class='ticket_top'>日付</p><h3 class='ticket_top'>$ticket_month<span class='smallLetter'>月</span>$ticket_date<span class='smallLetter'>日</span></h3><p class='ticket_bottom'>予約団体</p><h3 class='ticket_bottom'>$username</h3></div><div class='ticket_right'><p class='ticket_top'>時間帯</p><h3 class='ticket_top'>{$ticket_start_time}～{$ticket_end_time}</h3></div>$ticket_button</div>";
+        }
+    }
+}
+
 //団体の予約状態取得
 function GetUserReservedInfo($PDO, $user_id) {
     $user_tickets_array = [];
     $stmt = $PDO->prepare("SELECT * FROM tickets WHERE user_id = ".$user_id." AND (status = 'reserved' OR status = 'before')");
     $res = $stmt->execute();
     while($result = $stmt->fetch()){
+        //予約してあるチケットを多次元連想配列の形式で保存
         $user_tickets_array[] = $result;
     }
+    //保存した配列を返す
+    return $user_tickets_array;
 }
 
 //団体の予約上限のチェック
@@ -57,7 +85,7 @@ while($result = $stmt->fetch()){
     $today = date("Y-m-d");
     if (strtotime($result['date']) < strtotime($today)){
         $date_class_array[$order_count] = "calendar_past";
-    }else if(strtotime($result['date']) == strtotime($today)){
+    }elseif(strtotime($result['date']) == strtotime($today)){
         $date_class_array[$order_count] = "calendar_today";
         if(EmptyTickets($result['date'], $dbh) == false){
             $date_class_array[$order_count] = "calendar_today_unavaiable";
