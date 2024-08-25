@@ -55,6 +55,22 @@ if(isset($_GET['message'])){
             <div class="content">
                 <h1 class="content_subtitle">利用にあたって</h1>
             </div>
+            <div class="content">
+                <h1 class="content_subtitle">予約状況</h1>
+                <div class="ticket">
+                    <img src="file/complete.svg" alt="">
+                    <h3>予約済み</h3>
+                    <div class="ticket_text_container ticket_text_container_left">
+                        <h6>日付</h6>
+                        <h5>5月20日</h5>
+                    </div>
+                    <div class="ticket_text_container ticket_text_container_right">
+                        <h6>時間帯</h6>
+                        <h5>17:30～18:20</h5>
+                    </div>
+                    <a href="#">予約をキャンセルする</a>
+                </div>
+            </div>
             <div id="content_1" class="content">
                 <h1>利用にあたって</h1>
                 <p id="caution_1" class="caution">１枠は５０分です</p>

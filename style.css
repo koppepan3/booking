@@ -164,13 +164,127 @@ summary::after{
     margin:0 0 35px;
 }
 
-.content h1{
-    font-family: 'Zen Kaku Gothic New';
+.content_subtitle{
+    color: #000;
+    /* Standard/Std-45B-4 */
+    font-family: "Noto Sans JP";
+    font-size: 22px;
     font-style: normal;
-    font-weight: bold;
-    font-size: 17px;
-    line-height: 100%;
-    letter-spacing: 0.08em;
-    color: #2b2b2b;
-    margin:0 0 25px;
+    font-weight: 700;
+    line-height: 140%; /* 63px */
+    letter-spacing: 1px;
+    position: relative;
+    margin-left: 18px;
+}
+
+.content_subtitle::before{
+    content: "";
+    display: block;
+    width: 8px;
+    height: 30px;
+    background: #3460FB;
+    position: absolute;
+    top: 0px;
+    left: -18px;
+}
+
+.ticket{
+    width: 100%;
+    margin: 12px 0;
+    border-radius: 12px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8843E1;
+    position: relative;
+    padding: 15px 16px 20px;
+    box-sizing: border-box;
+}
+
+.ticket img{
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    width: 32px;
+    height: 32px;
+}
+
+.ticket h3{
+    position: absolute;
+    top: 4px;
+    left: 54px;
+    color: #000;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.56px;
+}
+
+.ticket a{
+    width: calc(100% - 28px);
+    padding: 14px;
+    background-color: #0017C1;
+    color: #ffffff;
+    border-radius: 7px;
+    border: none;
+    text-align: center;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.72px;
+}
+
+.ticket_text_container_left{
+    margin: 45px 23px 28px 20px;
+    display: inline-block;
+}
+
+.ticket_text_container_right{
+    margin: 45px 0 28px 20px;
+    display: inline-block;
+}
+
+.ticket_text_container h6{
+    color: #000;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.72px;
+    
+    margin: 0;
+    position: relative;
+}
+
+.ticket_text_container h6::before{
+    position: absolute;
+    top: 0;
+    left: -18px;
+    content: '';
+    display: block;
+    width: 15px; 
+    height: 15px;
+    background-image: url(file/dummy_icon.svg);
+    background-size: contain;
+    background-repeat:no-repeat;
+}
+
+.ticket_text_container h5{
+    color: #000;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.56px;
+
+    margin: 10px 0;
 }
