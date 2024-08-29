@@ -1,11 +1,12 @@
-.content form{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: bold;
+.select_label .password_label{
+    color: #000;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
     font-size: 14px;
-    line-height: 100%;
-    color: #505050;
-    letter-spacing: 0.050em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.56px;
 }
 
 #select_holder{
@@ -16,43 +17,72 @@
     margin: 15px 0;
 }
 
-select{
-    margin-top: 5px;
+.select_label{
     display: block;
-    padding: 2px;
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 100%;
-    color: #40514E;
-    background-color: #E4F9F5;
-    letter-spacing: 0.025em;
-    width: 100%;
-    outline: none;
-    border: none;
-    border-radius: 5px;
+    margin-left: calc(5% + 5px);
+    margin-bottom: 10px;
 }
 
-#textbox{
-    margin-top: 5PX;
+#user_select{
+    /*デフォルトの矢印非表示*/
+    -webkit-appearance: none;
+    appearance: none;
+
+    /*カスタマイズした矢印の画像を当てる*/
+    background-image: url("file/arrow_down.svg");
+    background-repeat: no-repeat;
+    background-size: 18px auto; /* 画像のサイズ（幅 高さ）*/
+    background-position: right 16px center; /* 画像の位置 */
+
+    margin: 5px 0 0 5%;
     display: block;
-    padding: 2px;
-    font-family: 'Zen Kaku Gothic New';
+    padding: 13px 10px;
+
+    color: #000;
+    /* Standard/Std-24M-5 */
+    font-family: "Noto Sans JP";
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 100%;
-    color: #40514E;
-    background-color: #E4F9F5;
-    letter-spacing: 0.025em;
-    width: 100%;
-    outline: none;
-    border: none;
+    line-height: 100%; /* 36px */
+    letter-spacing: 0.48px;
+
+    width: 90%;
+    border: 1px solid #000;
+    border-radius: 5px;
+
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.password_label{
+    display: block;
+    margin-left: calc(5% + 5px);
+    margin-bottom: 10px;
+}
+
+#password_input{
+    margin: 5px 0 0 5%;
+    display: block;
+    padding: 10px;
+
+    color: #000;
+    /* Standard/Std-24M-5 */
+    font-family: "Noto Sans JP";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 36px */
+    letter-spacing: 0.48px;
+
+    width: 90%;
+    border: 1px solid #000;
     border-radius: 5px;
+
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #submit{
@@ -69,4 +99,23 @@ select{
     font-size: 12px;
     line-height: 100%;
     letter-spacing: 0.12em;
+}
+
+#submit_button{
+    width: 90%;
+    box-sizing: border-box;
+    margin: 20px 5% 0;
+    padding: 14px;
+    background-color: #0017C1;
+    color: #ffffff;
+    border-radius: 7px;
+    border: none;
+    text-align: center;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.72px;
 }

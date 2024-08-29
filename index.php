@@ -2,6 +2,8 @@
 //ファイルパス取得処理
 $current_page = basename(__FILE__, ".php");
 
+//ユーザ認証処理読み込み
+include('user_auth.php');
 //共通バックエンド処理読み込み
 include('backend.php');
 
@@ -28,8 +30,8 @@ if(isset($_GET['message'])){
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 
         <!-- 個別設定 -->
         <title>駐輪場予約サイト</title>
@@ -39,21 +41,25 @@ if(isset($_GET['message'])){
             <a href="index.php"><img src="file/logo.svg" class="header_logo" alt=""></a>
         </header>
         <div id="notification_area">
-                <div class="notification notification_infomation">
-                    <img src="file/information.svg" alt="">
-                    <h2>予約上限に達しました</h2>
-                    <p>１つの団体で同時に予約できる枠数(2枠)に達しました。現在の予約枠をキャンセル、もしくは現在の予約枠を利用した後に、新たな予約ができるようになります。</p>
-                </div>
-                <div class="notification notification_warning">
-                    <img src="file/warning.svg" alt="">
-                    <h2>予約上限に達しました</h2>
-                    <p>１つの団体で同時に予約できる枠数(2枠)に達しました。現在の予約枠をキャンセル、もしくは現在の予約枠を利用した後に、新たな予約ができるようになります。</p>
-                </div>
+            <div class="notification notification_infomation">
+                <img src="file/information.svg" alt="">
+                <h2>予約上限に達しました</h2>
+                <p>１つの団体で同時に予約できる枠数(2枠)に達しました。現在の予約枠をキャンセル、もしくは現在の予約枠を利用した後に、新たな予約ができるようになります。</p>
             </div>
+            <div class="notification notification_warning">
+                <img src="file/warning.svg" alt="">
+                <h2>予約上限に達しました</h2>
+                <p>１つの団体で同時に予約できる枠数(2枠)に達しました。現在の予約枠をキャンセル、もしくは現在の予約枠を利用した後に、新たな予約ができるようになります。</p>
+            </div>
+        </div>
         <div id="contents">
             
             <div class="content">
                 <h1 class="content_subtitle">利用にあたって</h1>
+            </div>
+            <div class="content">
+                <h1 class="content_subtitle">新規予約</h1>
+                <a class="booking_button" href="#">枠を予約する</a>
             </div>
             <div class="content">
                 <h1 class="content_subtitle">予約状況</h1>

@@ -1,30 +1,5 @@
 <?php
 
-//ログイン確認処理
-session_start();
-if (isset($_SESSION['user_id'])) {
-    //ログインしている時
-    //セッションからユーザ名等取得
-    $username = $_SESSION['user'];
-    $user_id = $_SESSION['user_id'];
-    //閲覧権限
-    switch ($current_page) {
-        case "admin":
-            if($user_id != 1){
-                header("Location:error.php?error_code=708");
-            }
-        break;
-        default:
-            if($user_id == 1){
-                header("Location:admin.php");
-            }
-    }
-} else {
-    //ログインしていない時
-
-    header("Location:loginform.php");
-}
-
 //DB接続情報読み込み
 include('dbconnect.php');
 
@@ -143,30 +118,37 @@ function EmptyTickets($date, $PDO){
 
 //トップページのカレンダー生成処理
 function GenerateCalender($calendar_array, $class_array, $calendar_ymd_array){
-    //配列からカレンダーの行数(高さ)を取得
-    $calendar_array_length = count($calendar_array);
-    $calendar_row = ceil($calendar_array_length / 7) - 1;
+//配列からカレンダーの行数(高さ)を取得
+$calendar_array_length = count($calendar_array);
+$calendar_row = ceil($calendar_array_length / 7) - 1;
 
-    for ($row = 0; $row <= $calendar_row; $row++) {
-        echo "<tr>";
-        for ($column = 0; $column <= 6; $column++) {
-            $calendar_index = 7 * $row + $column;
-            if(
-                $class_array[$calendar_index] == "calendar_today" ||
-                $class_array[$calendar_index] == "calendar_avaiable"
-                ){
-                echo "<td class='".$class_array[$calendar_index]."'><a href='details.php?date=".$calendar_ymd_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</a></td>";
-            }else{
-                echo "<td class='".$class_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</td>";
-            }
+for ($row = 0; $row <= $calendar_row; $row++) {
+    echo "<tr>";
+    for ($column = 0; $column <= 6; $column++) {
+        $calendar_index = 7 * $row + $column;
+        if(
+            $class_array[$calendar_index] == "calendar_today" ||
+            $class_array[$calendar_index] == "calendar_avaiable"
+            ){
+            echo "<td class='".$class_array[$calendar_index]."'><a href='details.php?date=".$calendar_ymd_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</a></td>";
+        }else{
+            echo "<td class='".$class_array[$calendar_index]."'>".$calendar_array[$calendar_index]."</td>";
         }
-        echo "</tr>";
     }
+    echo "</tr>";
+}
 }
 
-/*
-try {
-    $stmt = $dbh->prepare("");
-    $res = $stmt->execute();
-};
-*/
+function GenerateNotificationBanner($type, $title, $paragraph){
+    switch ($type) {
+        case "information":
+            $svg_path = "file/information.svg";
+            $banner_class = "notification_infomation";
+        break;
+        case "warning":
+            $svg_path = "file/warning.svg";
+            $banner_class = "notification_warning";
+        break;
+    }
+    echo "<div class='notification {$banner_class}'><img src='{$svg_path}' alt=''><h2>{$title}</h2><p>{$paragraph}</p></div>";
+}

@@ -39,60 +39,6 @@ header{
     margin: 11px 0 0 15px;
 }
 
-header h1{
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 100%;
-    color: #000000;
-    margin-left: 15px;
-}
-
-
-details{
-    position: fixed;
-    top: 11px;
-    right: 20px;
-    list-style: none;
-    font-family: 'Zen Kaku Gothic New';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 100%;
-    letter-spacing: 0.12em;
-    color: #181818;
-    text-align: right;
-    background-color: white;
-}
-
-details>li{
-    margin-top: 15px !important;
-}
-
-summary {
-    display: block;
-    padding-right: 24px;
-  }
-  
-/* 一部ブラウザで消えなかった場合は以下も追記 */
-summary::-webkit-details-marker {
-    display:none;
-}
-
-summary::after{
-    position: absolute;
-    top: -1px;
-    right: 0px;
-    content:'';
-    display: inline-block;
-    width: 28px;
-    height:28px;
-    background-image:url(img/expand_more_FILL.svg);
-    background-size: contain;
-	vertical-align: middle;
-}
-
 #notification_area{
     width: 90%;
     margin:60px 0 0;
@@ -180,7 +126,7 @@ summary::after{
 .content_subtitle::before{
     content: "";
     display: block;
-    width: 8px;
+    width: 7px;
     height: 30px;
     background: #3460FB;
     position: absolute;
@@ -287,4 +233,23 @@ summary::after{
     letter-spacing: 0.56px;
 
     margin: 10px 0;
+}
+
+.booking_button{
+    width: calc(100% - 70px);
+    box-sizing: border-box;
+    margin: 0 35px;
+    padding: 14px;
+    background-color: #0017C1;
+    color: #ffffff;
+    border-radius: 7px;
+    border: none;
+    text-align: center;
+    /* Standard/Std-28B-5 */
+    font-family: "Noto Sans JP";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%; /* 42px */
+    letter-spacing: 0.72px;
 }

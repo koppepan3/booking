@@ -15,10 +15,7 @@ if (password_verify($_POST['pass'], $dbpass)) {//ログイン成功処理
     $_SESSION['user_id'] = $db_user['user_id'];
     $_SESSION['user'] = $db_user['user'];
     header('Location: index.php');
-    $msg = 'ログイン成功';
 } else {//ログイン失敗処理
-    $msg = '団体名またはパスワードが間違っています。';
+    header('Location: loginform.php?invalidPassword=true');
 }
 ?>
-
-<h1><?php echo $msg; ?></h1>
